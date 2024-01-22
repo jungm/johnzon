@@ -18,26 +18,26 @@
  */
 package org.apache.johnzon.jsonb;
 
-import static org.junit.Assert.assertEquals;
-
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
 import jakarta.json.bind.JsonbException;
 import jakarta.json.bind.annotation.JsonbCreator;
 import jakarta.json.bind.annotation.JsonbProperty;
+import org.apache.johnzon.jsonb.test.JsonbJunitExtension;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
-import org.apache.johnzon.jsonb.test.JsonbRule;
-import org.junit.Rule;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ConstructorVisibilityTest {
-    @Rule
-    public final JsonbRule jsonb = new JsonbRule();
+    @RegisterExtension
+    public final JsonbJunitExtension jsonb = new JsonbJunitExtension();
 
-    @Test(expected = JsonbException.class)
+    @Test
     public void packageConstructor() {
-        jsonb.fromJson("{}", PackageCons.class);
+        assertThrows(JsonbException.class, () -> jsonb.fromJson("{}", PackageCons.class));
     }
 
     @Test

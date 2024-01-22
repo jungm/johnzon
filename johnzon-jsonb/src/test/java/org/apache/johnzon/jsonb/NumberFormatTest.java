@@ -18,23 +18,23 @@
  */
 package org.apache.johnzon.jsonb;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.apache.johnzon.jsonb.model.packageformat.FormatFromPackageModel;
 import org.apache.johnzon.jsonb.model.packageformat.FormatFromClassModel;
-import org.apache.johnzon.jsonb.test.JsonbRule;
-import org.junit.Rule;
-import org.junit.Test;
+import org.apache.johnzon.jsonb.test.JsonbJunitExtension;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 
 public class NumberFormatTest {
-    @Rule
-    public final JsonbRule jsonb = new JsonbRule();
+    @RegisterExtension
+    public final JsonbJunitExtension jsonb = new JsonbJunitExtension();
 
     @Test
     public void packageFormat() {
         final String json = jsonb.toJson(new FormatFromPackageModel() {{ setInstance(123456.789); }});
-        assertTrue(json, json.matches("\\{\\s*\"instance\"\\s*:\\s*\"123.456,8\"\\s*}"));
+        assertTrue(json.matches("\\{\\s*\"instance\"\\s*:\\s*\"123.456,8\"\\s*}"), json);
 
         final FormatFromPackageModel unmarshalledObject = jsonb.fromJson(
                 "{ \"instance\" : \"123.456,789\" }", FormatFromPackageModel.class);
@@ -44,7 +44,7 @@ public class NumberFormatTest {
     @Test
     public void formatType() {
         final String json = jsonb.toJson(new FormatFromClassModel() {{ setInstance(123456.789); }});
-        assertTrue(json, json.matches("\\{\\s*\"instance\"\\s*:\\s*\"123.456,8\"\\s*}"));
+        assertTrue(json.matches("\\{\\s*\"instance\"\\s*:\\s*\"123.456,8\"\\s*}"), json);
 
         final FormatFromPackageModel unmarshalledObject = jsonb.fromJson(
                 "{ \"instance\" : \"123.456,789\" }", FormatFromClassModel.class);

@@ -16,7 +16,7 @@
  */
 package org.apache.johnzon.jsonb;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
@@ -26,8 +26,8 @@ import jakarta.json.bind.adapter.JsonbAdapter;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
 import java.util.concurrent.Callable;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class JsonbAdapterExceptionsTest {
 

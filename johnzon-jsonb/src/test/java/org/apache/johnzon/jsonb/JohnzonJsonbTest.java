@@ -18,7 +18,7 @@
  */
 package org.apache.johnzon.jsonb;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -26,17 +26,17 @@ import jakarta.json.JsonValue;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 
-import org.apache.johnzon.jsonb.test.JsonbRule;
-import org.junit.Rule;
-import org.junit.Test;
+import org.apache.johnzon.jsonb.test.JsonbJunitExtension;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class JohnzonJsonbTest {
-    @Rule
-    public final JsonbRule rule = new JsonbRule();
+    @RegisterExtension
+    public final JsonbJunitExtension rule = new JsonbJunitExtension();
 
     @Test
     public void listJsonValue() {

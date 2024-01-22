@@ -16,7 +16,7 @@
  */
 package org.apache.johnzon.jsonb;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import jakarta.json.bind.JsonbException;
 import jakarta.json.bind.annotation.JsonbCreator;

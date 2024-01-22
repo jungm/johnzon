@@ -18,7 +18,7 @@
  */
 package org.apache.johnzon.jsonb;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
@@ -40,8 +40,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class JsonbWriteTest {
     @Test

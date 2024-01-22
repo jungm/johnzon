@@ -18,9 +18,9 @@
  */
 package org.apache.johnzon.jsonb;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -31,7 +31,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbVisibility;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DefaultPropertyVisibilityStrategyTest {
     @Test // note it is not a valid case since our default impl is internal but it guarantees we dont wrongly impl equals

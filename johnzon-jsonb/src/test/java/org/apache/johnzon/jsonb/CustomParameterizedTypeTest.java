@@ -18,18 +18,17 @@
  */
 package org.apache.johnzon.jsonb;
 
-import org.junit.Test;
-
 import jakarta.json.bind.spi.JsonbProvider;
+import org.junit.jupiter.api.Test;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.Objects;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CustomParameterizedTypeTest {
     @Test
@@ -51,7 +50,7 @@ public class CustomParameterizedTypeTest {
                 return null;
             }
         });
-        assertThat(map, instanceOf(Map.class));
+        assertInstanceOf(Map.class, map);
         final Map<String, Value> asMap = Map.class.cast(map);
         assertTrue(asMap.containsKey("val1"));
         assertEquals(1, asMap.size());

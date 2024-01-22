@@ -18,66 +18,48 @@
  */
 package org.apache.johnzon.jsonb.test;
 
-import org.apache.johnzon.jsonb.api.experimental.JsonbExtension;
-import org.junit.rules.TestRule;
-import org.junit.runner.Description;
-import org.junit.runners.model.Statement;
-
 import jakarta.json.JsonValue;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
 import jakarta.json.bind.JsonbException;
-import jakarta.json.bind.adapter.JsonbAdapter;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonParser;
+import org.apache.johnzon.jsonb.api.experimental.JsonbExtension;
+import org.junit.jupiter.api.extension.AfterEachCallback;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.lang.reflect.Type;
+import java.util.function.Consumer;
 
-public class JsonbRule implements TestRule, Jsonb, JsonbExtension {
+public class JsonbJunitExtension implements BeforeEachCallback, AfterEachCallback, Jsonb, JsonbExtension {
+    private final JsonbConfig config = new JsonbConfig();
     private Jsonb jsonb;
 
-    private final JsonbConfig config = new JsonbConfig();
-
-    public JsonbRule withPropertyOrderStrategy(final String propertyOrderStrategy) {
-        config.withPropertyOrderStrategy(propertyOrderStrategy);
-        return this;
-    }
-
-    public JsonbRule withPropertyNamingStrategy(final String propertyorderstrategy) {
-        config.withPropertyNamingStrategy(propertyorderstrategy);
-        return this;
-    }
-
-    public JsonbRule withFormatting(final boolean format) {
-        config.withFormatting(format);
-        return this;
-    }
-
-    public JsonbRule withTypeAdapter(JsonbAdapter<?, ?>... jsonbAdapters) {
-        config.withAdapters(jsonbAdapters);
+    public JsonbJunitExtension configure(Consumer<JsonbConfig> configurator) {
+        configurator.accept(config);
         return this;
     }
 
     @Override
-    public Statement apply(final Statement statement, final Description description) {
-        return new Statement() {
-            @Override
-            public void evaluate() throws Throwable {
-                try (final Jsonb jsonb = JsonbBuilder.create(config)) {
-                    JsonbRule.this.jsonb = jsonb;
-                    statement.evaluate();
-                } finally {
-                    JsonbRule.this.jsonb = null;
-                }
-            }
-        };
+    public void beforeEach(ExtensionContext context) throws Exception {
+        jsonb = JsonbBuilder.create(config);
     }
 
     @Override
+    public void afterEach(ExtensionContext context) throws Exception {
+        if (jsonb != null) {
+            jsonb.close();
+            jsonb = null;
+        }
+    }
+
+    // impl for Jsonb and JsonbExtension below, rewrite as ParameterResolver later on and clean this up
     public <T> T fromJson(final String str, final Class<T> type) throws JsonbException {
         return jsonb.fromJson(str, type);
     }
@@ -181,5 +163,4 @@ public class JsonbRule implements TestRule, Jsonb, JsonbExtension {
     public void toJson(final Object object, final Type runtimeType, final JsonGenerator jsonGenerator) {
         JsonbExtension.class.cast(jsonb).toJson(object, runtimeType, jsonGenerator);
     }
-
 }

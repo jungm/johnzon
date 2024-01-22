@@ -18,22 +18,22 @@
  */
 package org.apache.johnzon.jsonb;
 
-import org.apache.johnzon.jsonb.model.Holder;
-import org.apache.johnzon.jsonb.test.JsonbRule;
-import org.junit.Rule;
-import org.junit.Test;
-
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbException;
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.spi.JsonbProvider;
+import org.apache.johnzon.jsonb.model.Holder;
+import org.apache.johnzon.jsonb.test.JsonbJunitExtension;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class JsonbTransientTest {
-    @Rule
-    public final JsonbRule jsonb = new JsonbRule();
+    @RegisterExtension
+    public final JsonbJunitExtension jsonb = new JsonbJunitExtension();
 
     @Test
     public void roundtrip() {
@@ -46,9 +46,9 @@ public class JsonbTransientTest {
         assertEquals("{\"_name\":\"test\"}", jsonb.toJson(book));
     }
 
-    @Test(expected = JsonbException.class)
+    @Test
     public void illegalConfig() {
-        jsonb.toJson(new TransientGetterWithFieldProperty());
+        assertThrows(JsonbException.class, () -> jsonb.toJson(new TransientGetterWithFieldProperty()));
     }
 
     public class TransientGetterWithFieldProperty implements Holder<String> {

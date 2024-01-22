@@ -19,12 +19,12 @@
 package org.apache.johnzon.jsonb;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ObjectSerializationTest {
     private final Jsonb mapper = JsonbBuilder.create();

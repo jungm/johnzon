@@ -19,14 +19,14 @@
 package org.apache.johnzon.jsonb;
 
 import org.apache.johnzon.mapper.JohnzonIgnoreNested;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.spi.JsonbProvider;
 import java.util.Collection;
 
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class JohnzonIgnoreNestedTest {
     @Test

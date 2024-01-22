@@ -19,9 +19,9 @@
 package org.apache.johnzon.jsonb;
 
 import static java.util.Collections.singletonMap;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -46,14 +46,14 @@ import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonParser;
 
 import org.apache.johnzon.jsonb.model.Holder;
-import org.apache.johnzon.jsonb.test.JsonbRule;
-import org.junit.Rule;
-import org.junit.Test;
+import org.apache.johnzon.jsonb.test.JsonbJunitExtension;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 
 public class SerializerTest {
-    @Rule
-    public final JsonbRule jsonb = new JsonbRule()
-            .withPropertyOrderStrategy(PropertyOrderStrategy.LEXICOGRAPHICAL);
+    @RegisterExtension
+    public final JsonbJunitExtension jsonb = new JsonbJunitExtension()
+            .configure(jsonbConfig -> jsonbConfig.withPropertyOrderStrategy(PropertyOrderStrategy.LEXICOGRAPHICAL));
 
     @Test // https://issues.apache.org/jira/browse/JOHNZON-335
     public void testNestedSerializer() {
@@ -82,8 +82,8 @@ public class SerializerTest {
         container.setInstance(instance);
 
         final String json = jsonb.toJson(container);
-        assertTrue(json, json.matches(
-                "\\{\\s*\"instance\"\\s*:\\s*\\{\\s*\"instance\"\\s*:\\s*\"Test String Serialized\"\\s*}\\s*}"));
+        assertTrue(json.matches(
+                        "\\{\\s*\"instance\"\\s*:\\s*\\{\\s*\"instance\"\\s*:\\s*\"Test String Serialized\"\\s*}\\s*}"), json);
 
         final HolderHolder unmarshalledObject = jsonb.fromJson("{ \"instance\" : { \"instance\" : \"Test String\" } }", HolderHolder.class);
         assertEquals("Test String Deserialized", unmarshalledObject.getInstance().getInstance());

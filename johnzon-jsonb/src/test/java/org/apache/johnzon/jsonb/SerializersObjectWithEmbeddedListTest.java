@@ -18,9 +18,9 @@
  */
 package org.apache.johnzon.jsonb;
 
-import org.apache.johnzon.jsonb.test.JsonbRule;
-import org.junit.Rule;
-import org.junit.Test;
+import org.apache.johnzon.jsonb.test.JsonbJunitExtension;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 
 import jakarta.json.bind.annotation.JsonbTypeSerializer;
 import jakarta.json.bind.serializer.JsonbSerializer;
@@ -29,11 +29,12 @@ import jakarta.json.stream.JsonGenerator;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SerializersObjectWithEmbeddedListTest {
-    @Rule
-    public final JsonbRule jsonb = new JsonbRule().withFormatting(true);
+    @RegisterExtension
+    public final JsonbJunitExtension jsonb = new JsonbJunitExtension()
+            .configure(jsonbConfig -> jsonbConfig.withFormatting(true));
 
     @Test
     public void serializeTest() throws Exception {

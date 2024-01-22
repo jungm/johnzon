@@ -18,7 +18,7 @@
  */
 package org.apache.johnzon;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
@@ -38,7 +38,7 @@ import static java.util.Arrays.asList;
 import static jakarta.json.stream.JsonParser.Event.KEY_NAME;
 import static jakarta.json.stream.JsonParser.Event.START_OBJECT;
 import static jakarta.json.stream.JsonParser.Event.VALUE_NUMBER;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RecursivePolymorphismTest {
     @Test

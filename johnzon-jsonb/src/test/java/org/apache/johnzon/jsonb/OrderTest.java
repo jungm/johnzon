@@ -18,33 +18,32 @@
  */
 package org.apache.johnzon.jsonb;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import jakarta.json.bind.annotation.JsonbPropertyOrder;
+import org.apache.johnzon.jsonb.test.JsonbJunitExtension;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
-import org.apache.johnzon.jsonb.test.JsonbRule;
-import org.junit.Rule;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class OrderTest {
-    @Rule
-    public final JsonbRule jsonb = new JsonbRule();
+    @RegisterExtension
+    public final JsonbJunitExtension jsonb = new JsonbJunitExtension();
 
     @Test
     public void partial() {
         final String jsonb = this.jsonb.toJson(new PartialModel());
-        assertTrue(jsonb, jsonb.matches(
-                "\\{\\s*\"third\"\\s*:\\s*\"Third\"\\s*,\\s*\"fourth\"\\s*:\\s*\"Fourth\".*}"));
+        assertTrue(jsonb.matches(
+                        "\\{\\s*\"third\"\\s*:\\s*\"Third\"\\s*,\\s*\"fourth\"\\s*:\\s*\"Fourth\".*}"), jsonb);
     }
 
     @Test // TODO: not sure it is good to respect json and not mapping, we can challenge the spec on it
     public void deserializationRespectsOrderToo() {
         final String json = this.jsonb.toJson(new PartialOrder() {{ setStringInstance("Test String"); }});
         assertEquals("{\"longInstance\":0,\"intInstance\":0,\"stringInstance\":\"Test String\",\"anIntInstance\":0,\"anotherIntInstance\":0,\"yetAnotherIntInstance\":0}", json);
-        assertTrue(json, json.contains("anotherIntInstance"));
-        assertTrue(json, json.contains("anIntInstance"));
-        assertTrue(json, json.contains("yetAnotherIntInstance"));
+        assertTrue(json.contains("anotherIntInstance"), json);
+        assertTrue(json.contains("anIntInstance"), json);
+        assertTrue(json.contains("yetAnotherIntInstance"), json);
 
         final PartialOrder unmarshalledObject = jsonb.fromJson(
                 "{ \"anIntInstance\" : 100, \"yetAnotherIntInstance\":100, \"anotherIntInstance\": 100, " +

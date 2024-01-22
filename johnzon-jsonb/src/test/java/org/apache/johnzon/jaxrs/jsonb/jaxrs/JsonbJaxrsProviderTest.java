@@ -18,9 +18,15 @@
  */
 package org.apache.johnzon.jaxrs.jsonb.jaxrs;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedHashMap;
+import jakarta.ws.rs.core.NoContentException;
+import jakarta.ws.rs.ext.ContextResolver;
+import org.apache.cxf.jaxrs.impl.ProvidersImpl;
+import org.apache.johnzon.core.JsonReaderImpl;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -30,31 +36,25 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.MultivaluedHashMap;
-import jakarta.ws.rs.core.NoContentException;
-import jakarta.ws.rs.ext.ContextResolver;
-
-import org.apache.cxf.jaxrs.impl.ProvidersImpl;
-import org.apache.johnzon.core.JsonReaderImpl;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class JsonbJaxrsProviderTest {
-    @Test(expected = NoContentException.class)
+    @Test
     public void noContentExceptionAuto() throws IOException { // we run on jaxrs 2 in the build
-        readFoo(null, new ByteArrayInputStream(new byte[0]));
+        assertThrows(NoContentException.class, () -> readFoo(null, new ByteArrayInputStream(new byte[0])));
     }
 
-    @Test(expected = NoContentException.class)
+    @Test
     public void noContentException() throws IOException {
-        readFoo(true, new ByteArrayInputStream(new byte[0]));
+        assertThrows(NoContentException.class, () -> readFoo(true, new ByteArrayInputStream(new byte[0])));
     }
 
-    @Test(expected = JsonReaderImpl.NothingToRead.class)
+    @Test
     public void noContentExceptionDisabled() throws IOException {
-        readFoo(false, new ByteArrayInputStream(new byte[0]));
+        assertThrows(JsonReaderImpl.NothingToRead.class, () -> readFoo(false, new ByteArrayInputStream(new byte[0])));
     }
 
     @Test // just to ensure we didnt break soemthing on read impl

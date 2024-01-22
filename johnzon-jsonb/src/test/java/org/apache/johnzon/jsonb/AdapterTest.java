@@ -19,8 +19,6 @@ package org.apache.johnzon.jsonb;
  */
 
 
-import org.junit.Test;
-
 import jakarta.json.Json;
 import jakarta.json.JsonString;
 import jakarta.json.bind.Jsonb;
@@ -29,6 +27,8 @@ import jakarta.json.bind.JsonbConfig;
 import jakarta.json.bind.adapter.JsonbAdapter;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
 import jakarta.json.bind.config.PropertyOrderStrategy;
+import org.junit.jupiter.api.Test;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -38,9 +38,9 @@ import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.startsWith;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AdapterTest {
     public static class PathAdapter implements JsonbAdapter<Path, JsonString> {
@@ -356,17 +356,15 @@ public class AdapterTest {
         DoorDTO door = new DoorDTO();
         door.status = DoorStatus.OPEN;
         String jsonS = jsonb.toJson(door);
-        assertEquals(
-                "The expected result must be a door with a status open as its enum ordinal",
-                "{\"status\":0}",
-                jsonS);
+        assertEquals("{\"status\":0}", jsonS,
+                "The expected result must be a door with a status open as its enum ordinal");
 
         DoorDTO doorDTO = jsonb.fromJson(jsonS, DoorDTO.class);
 
         assertEquals(
-                "The expected result must be a door with a status open as an enum value",
                 DoorStatus.OPEN,
-                doorDTO.status);
+                doorDTO.status,
+                "The expected result must be a door with a status open as an enum value");
     }
 
     public static class DoorDTO {

@@ -18,14 +18,14 @@
  */
 package org.apache.johnzon.jsonb;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
 import jakarta.json.bind.annotation.JsonbPropertyOrder;
 import jakarta.json.bind.config.PropertyNamingStrategy;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AnnotationOrderTest {
     /**

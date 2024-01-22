@@ -18,7 +18,7 @@
  */
 package org.apache.johnzon.jsonb.serializer;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.lang.reflect.Type;
 
@@ -29,7 +29,7 @@ import jakarta.json.bind.serializer.DeserializationContext;
 import jakarta.json.bind.serializer.JsonbDeserializer;
 import jakarta.json.stream.JsonParser;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DeserializationContextTest {
 

@@ -18,17 +18,8 @@
  */
 package org.apache.johnzon.jsonb.jaxrs;
 
-import org.apache.cxf.endpoint.Server;
-import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
-import org.apache.cxf.jaxrs.client.WebClient;
-import org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider;
-import org.apache.cxf.transport.local.LocalConduit;
-import org.apache.johnzon.jaxrs.jsonb.jaxrs.JsonbJaxrsProvider;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -37,6 +28,18 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.StreamingOutput;
+import jakarta.ws.rs.ext.ContextResolver;
+import org.apache.cxf.endpoint.Server;
+import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
+import org.apache.cxf.jaxrs.client.WebClient;
+import org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider;
+import org.apache.cxf.transport.local.LocalConduit;
+import org.apache.johnzon.jaxrs.jsonb.jaxrs.JsonbJaxrsProvider;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.ParameterizedType;
@@ -46,11 +49,8 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-import jakarta.json.bind.Jsonb;
-import jakarta.json.bind.JsonbBuilder;
-import jakarta.ws.rs.ext.ContextResolver;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class JsonbJaxRsTest {
     private final static String ENDPOINT_ADDRESS = "local://johnzon";
@@ -71,7 +71,7 @@ public class JsonbJaxRsTest {
 
     }
     
-    @BeforeClass
+    @BeforeAll
     public static void bindEndpoint() throws Exception {
         JAXRSServerFactoryBean sf = new JAXRSServerFactoryBean();
         sf.setResourceClasses(JohnzonResource.class);
@@ -87,7 +87,7 @@ public class JsonbJaxRsTest {
         serverJsonbConfig = sf.create();
     }
 
-    @AfterClass
+    @AfterAll
     public static void unbind() throws Exception {
         server.stop();
         server.destroy();
@@ -144,9 +144,9 @@ public class JsonbJaxRsTest {
                 .path("johnzon/mybinary")
                 .get(byte[].class);
 
-        Assert.assertEquals(100, content.length);
+        Assertions.assertEquals(100, content.length);
         for (int i=0; i < 100; i++) {
-            Assert.assertEquals((byte) i, content[i]);
+            Assertions.assertEquals((byte) i, content[i]);
         }
     }
 

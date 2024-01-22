@@ -18,11 +18,6 @@
  */
 package org.apache.johnzon.jsonb.api.experimental;
 
-import org.apache.johnzon.jsonb.test.JsonbRule;
-import org.apache.johnzon.mapper.reflection.JohnzonParameterizedType;
-import org.junit.Rule;
-import org.junit.Test;
-
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
@@ -37,6 +32,11 @@ import jakarta.json.bind.serializer.JsonbSerializer;
 import jakarta.json.bind.serializer.SerializationContext;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonParser;
+import org.apache.johnzon.jsonb.test.JsonbJunitExtension;
+import org.apache.johnzon.mapper.reflection.JohnzonParameterizedType;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+
 import java.io.Serializable;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -56,11 +56,11 @@ import java.util.TreeMap;
 
 import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class JsonbExtensionTest {
-    @Rule
-    public final JsonbRule jsonb = new JsonbRule();
+    @RegisterExtension
+    public final JsonbJunitExtension jsonb = new JsonbJunitExtension();
 
     private final JsonObject defaultValue = Json.createObjectBuilder()
             .add("foo", "ok")

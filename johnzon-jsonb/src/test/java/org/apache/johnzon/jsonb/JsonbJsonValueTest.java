@@ -18,7 +18,7 @@
  */
 package org.apache.johnzon.jsonb;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -27,7 +27,7 @@ import jakarta.json.bind.JsonbBuilder;
 
 import org.apache.johnzon.jsonb.extension.JsonValueReader;
 import org.apache.johnzon.jsonb.extension.JsonValueWriter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class JsonbJsonValueTest {
     @Test

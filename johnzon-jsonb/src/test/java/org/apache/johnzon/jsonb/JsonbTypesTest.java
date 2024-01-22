@@ -18,8 +18,8 @@
  */
 package org.apache.johnzon.jsonb;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.StringReader;
 import java.math.BigDecimal;
@@ -60,7 +60,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.spi.JsonbProvider;
 
 import org.apache.cxf.common.util.StringUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class JsonbTypesTest {
     @Test

@@ -33,10 +33,10 @@ import org.apache.johnzon.mapper.JohnzonConverter;
 import org.apache.johnzon.mapper.MappingGenerator;
 import org.apache.johnzon.mapper.MappingParser;
 import org.apache.johnzon.mapper.ObjectConverter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Test that a Johnzon Converter works even in JsonB mode

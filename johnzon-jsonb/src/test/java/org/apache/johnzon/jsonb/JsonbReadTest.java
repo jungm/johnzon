@@ -18,16 +18,15 @@
  */
 package org.apache.johnzon.jsonb;
 
-import org.junit.Test;
-
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
-import jakarta.json.bind.JsonbConfig;
 import jakarta.json.bind.JsonbException;
 import jakarta.json.bind.annotation.JsonbDateFormat;
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.config.BinaryDataStrategy;
-import jakarta.json.bind.spi.JsonbProvider;
+import org.apache.johnzon.jsonb.test.JsonbJunitExtension;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
 import java.io.ByteArrayInputStream;
 import java.io.StringReader;
@@ -39,10 +38,15 @@ import java.util.Base64;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class JsonbReadTest {
+    @RegisterExtension
+    private JsonbJunitExtension jsonb = new JsonbJunitExtension()
+            .configure(jsonbConfig -> jsonbConfig.withBinaryDataStrategy(BinaryDataStrategy.BASE_64));
+    
     @Test
     public void simpleArrayMapping() throws Exception {
         final List<String> expectedResult = asList("Test String");
@@ -73,27 +77,27 @@ public class JsonbReadTest {
 
     @Test
     public void boolFromString() {
-        assertTrue(JsonbProvider.provider().create().build().fromJson("true", Boolean.class));
+        assertTrue(jsonb.fromJson("true", Boolean.class));
     }
 
     @Test
     public void boolFromReader() {
-        assertTrue(JsonbProvider.provider().create().build().fromJson(new StringReader("true"), Boolean.class));
+        assertTrue(jsonb.fromJson(new StringReader("true"), Boolean.class));
     }
 
     @Test
     public void boolFromStream() {
-        assertTrue(JsonbProvider.provider().create().build().fromJson(new ByteArrayInputStream("true".getBytes()), Boolean.class));
+        assertTrue(jsonb.fromJson(new ByteArrayInputStream("true".getBytes()), Boolean.class));
     }
 
     @Test
     public void simple() {
-        assertEquals("test", JsonbProvider.provider().create().build().fromJson(new StringReader("{\"value\":\"test\"}"), Simple.class).value);
+        assertEquals("test", jsonb.fromJson(new StringReader("{\"value\":\"test\"}"), Simple.class).value);
     }
 
     @Test
     public void propertyMapping() {
-        assertEquals("test", JsonbProvider.provider().create().build().fromJson(new StringReader("{\"simple\":\"test\"}"), SimpleProperty.class).value);
+        assertEquals("test", jsonb.fromJson(new StringReader("{\"simple\":\"test\"}"), SimpleProperty.class).value);
     }
 
     @Test
@@ -101,7 +105,7 @@ public class JsonbReadTest {
         final String date = DateTimeFormatter.ofPattern("d. LLLL yyyy").format(LocalDate.now());
         assertEquals(
             LocalDate.now().getYear(),
-            JsonbProvider.provider().create().build().fromJson(new StringReader("{\"date\":\"" + date + "\"}"), DateFormatting.class).date.getYear());
+            jsonb.fromJson(new StringReader("{\"date\":\"" + date + "\"}"), DateFormatting.class).date.getYear());
     }
 
     @Test
@@ -110,7 +114,7 @@ public class JsonbReadTest {
                 "  \"simple\":\"test\"\n" +
                 "}\n";
 
-        assertEquals("test", JsonbProvider.provider().create().build().fromJson(new StringReader(json), SimpleProperty.class).value);
+        assertEquals("test", jsonb.fromJson(new StringReader(json), SimpleProperty.class).value);
     }
 
     @Test
@@ -119,7 +123,7 @@ public class JsonbReadTest {
                 "  \"simple\":\"test\"\r\n" +
                 "}\r\n";
 
-        assertEquals("test", JsonbProvider.provider().create().build().fromJson(new StringReader(json), SimpleProperty.class).value);
+        assertEquals("test", jsonb.fromJson(new StringReader(json), SimpleProperty.class).value);
     }
 
     @Test
@@ -128,24 +132,22 @@ public class JsonbReadTest {
                 "\t\"simple\":\"test\"\n" +
                 "}\n";
 
-        assertEquals("test", JsonbProvider.provider().create().build().fromJson(new StringReader(json), SimpleProperty.class).value);
+        assertEquals("test", jsonb.fromJson(new StringReader(json), SimpleProperty.class).value);
     }
 
     @Test
     public void testValidBase64() {
         String json = "{\"blob\":\"" + Base64.getEncoder().encodeToString("test".getBytes(StandardCharsets.UTF_8)) + "\"}";
-        JsonbConfig cfg = new JsonbConfig()
-                .withBinaryDataStrategy(BinaryDataStrategy.BASE_64);
-        SimpleBinaryDto simpleBinaryDto = JsonbProvider.provider().create().withConfig(cfg).build().fromJson(new StringReader(json), SimpleBinaryDto.class);
+
+        SimpleBinaryDto simpleBinaryDto = jsonb.fromJson(new StringReader(json), SimpleBinaryDto.class);
         assertEquals("test", new String(simpleBinaryDto.getBlob(), StandardCharsets.UTF_8));
     }
 
-    @Test(expected = JsonbException.class)
+    @Test
     public void testInvalidBase64() {
         String jsonWithIllegalBase64 = "{\"blob\":\"dGVXz@dA==\"}";
-        JsonbConfig cfg = new JsonbConfig()
-                .withBinaryDataStrategy(BinaryDataStrategy.BASE_64);
-        SimpleBinaryDto simpleBinaryDto = JsonbProvider.provider().create().withConfig(cfg).build().fromJson(new StringReader(jsonWithIllegalBase64), SimpleBinaryDto.class);
+        
+        assertThrows(JsonbException.class, () -> jsonb.fromJson(jsonWithIllegalBase64, SimpleBinaryDto.class));
     }
 
 

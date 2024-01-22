@@ -36,7 +36,7 @@ import org.apache.webbeans.spi.ScannerService;
 import org.apache.webbeans.spi.api.ResourceReference;
 import org.apache.webbeans.util.WebBeansUtil;
 import org.apache.webbeans.xml.DefaultBeanArchiveInformation;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.spi.Extension;
@@ -57,8 +57,8 @@ import java.util.Properties;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CdiAdapterTest {
     @Test

@@ -27,8 +27,8 @@ import jakarta.json.bind.annotation.JsonbVisibility;
 import jakarta.json.bind.config.PropertyVisibilityStrategy;
 import jakarta.json.bind.spi.JsonbProvider;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class JsonbVisitilityTest {
 
@@ -41,11 +41,11 @@ public class JsonbVisitilityTest {
 
         Jsonb jsonb = JsonbProvider.provider().create().build();
         String json = jsonb.toJson(data);
-        Assert.assertEquals("{\"attribs\":{\"x\":\"a\",\"y\":\"b\"},\"testKey\":\"yolo\"}", json);
+        Assertions.assertEquals("{\"attribs\":{\"x\":\"a\",\"y\":\"b\"},\"testKey\":\"yolo\"}", json);
 
         MyDataVisibility dataBack = jsonb.fromJson(json, MyDataVisibility.class);
-        Assert.assertEquals("a", dataBack.get("x"));
-        Assert.assertEquals("b", dataBack.get("y"));
+        Assertions.assertEquals("a", dataBack.get("x"));
+        Assertions.assertEquals("b", dataBack.get("y"));
     }
 
     @Test
@@ -56,11 +56,11 @@ public class JsonbVisitilityTest {
 
         Jsonb jsonb = JsonbProvider.provider().create().build();
         String json = jsonb.toJson(data);
-        Assert.assertEquals("{\"attribs\":{\"x\":\"a\",\"y\":\"b\"}}", json);
+        Assertions.assertEquals("{\"attribs\":{\"x\":\"a\",\"y\":\"b\"}}", json);
 
         MyDataJsonField dataBack = jsonb.fromJson(json, MyDataJsonField.class);
-        Assert.assertEquals("a", dataBack.get("x"));
-        Assert.assertEquals("b", dataBack.get("y"));
+        Assertions.assertEquals("a", dataBack.get("x"));
+        Assertions.assertEquals("b", dataBack.get("y"));
     }
 
 

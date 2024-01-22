@@ -18,35 +18,33 @@
  */
 package org.apache.johnzon.jsonb;
 
-import org.junit.experimental.theories.DataPoints;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
-
 import jakarta.json.bind.config.PropertyNamingStrategy;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.junit.Assert.assertEquals;
+import java.util.stream.Stream;
 
-@RunWith(Theories.class)
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class PropertyNamingStrategyFactoryTest {
-    @DataPoints()
-    public static String[][] points() {
-        return new String[][] {
-            new String[] { PropertyNamingStrategy.IDENTITY, "a", "a" },
-            new String[] { PropertyNamingStrategy.IDENTITY, "aBEOCBDJ4397dkabqWLCd", "aBEOCBDJ4397dkabqWLCd" },
-            new String[] { PropertyNamingStrategy.CASE_INSENSITIVE, "aBEOCBDJ4397dkabqWLCd", "aBEOCBDJ4397dkabqWLCd" }, // not really testable there
-            new String[] { PropertyNamingStrategy.LOWER_CASE_WITH_DASHES, "lower-dash", "lower-dash" },
-            new String[] { PropertyNamingStrategy.LOWER_CASE_WITH_DASHES, "lower_dash", "lower_dash" },
-            new String[] { PropertyNamingStrategy.LOWER_CASE_WITH_DASHES, "lowerDash", "lower-dash" },
-            new String[] { PropertyNamingStrategy.LOWER_CASE_WITH_UNDERSCORES, "lower_under", "lower_under" },
-            new String[] { PropertyNamingStrategy.LOWER_CASE_WITH_UNDERSCORES, "lowerUnder", "lower_under" },
-            new String[] { PropertyNamingStrategy.UPPER_CAMEL_CASE, "fooBar", "FooBar" },
-            new String[] { PropertyNamingStrategy.UPPER_CAMEL_CASE_WITH_SPACES, "fooBar", "Foo Bar" },
-        };
+    public static Stream<Arguments> points() {
+        return Stream.of(
+                Arguments.of(PropertyNamingStrategy.IDENTITY, "a", "a"),
+                Arguments.of(PropertyNamingStrategy.IDENTITY, "aBEOCBDJ4397dkabqWLCd", "aBEOCBDJ4397dkabqWLCd"),
+                Arguments.of(PropertyNamingStrategy.CASE_INSENSITIVE, "aBEOCBDJ4397dkabqWLCd", "aBEOCBDJ4397dkabqWLCd"), // not really testable there
+                Arguments.of(PropertyNamingStrategy.LOWER_CASE_WITH_DASHES, "lower-dash", "lower-dash"),
+                Arguments.of(PropertyNamingStrategy.LOWER_CASE_WITH_DASHES, "lower_dash", "lower_dash"),
+                Arguments.of(PropertyNamingStrategy.LOWER_CASE_WITH_DASHES, "lowerDash", "lower-dash"),
+                Arguments.of(PropertyNamingStrategy.LOWER_CASE_WITH_UNDERSCORES, "lower_under", "lower_under"),
+                Arguments.of(PropertyNamingStrategy.LOWER_CASE_WITH_UNDERSCORES, "lowerUnder", "lower_under"),
+                Arguments.of(PropertyNamingStrategy.UPPER_CAMEL_CASE, "fooBar", "FooBar"),
+                Arguments.of(PropertyNamingStrategy.UPPER_CAMEL_CASE_WITH_SPACES, "fooBar", "Foo Bar"));
     }
 
-    @Theory
-    public void valid(final String[] config) {
-        assertEquals(config[2], new PropertyNamingStrategyFactory(config[0]).create().translateName(config[1]));
+    @ParameterizedTest
+    @MethodSource("points")
+    public void valid(String strategy, String input, String expected) {
+        assertEquals(expected, new PropertyNamingStrategyFactory(strategy).create().translateName(input));
     }
 }

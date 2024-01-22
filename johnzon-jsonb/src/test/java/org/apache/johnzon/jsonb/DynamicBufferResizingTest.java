@@ -18,8 +18,9 @@
  */
 package org.apache.johnzon.jsonb;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
@@ -30,7 +31,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbPropertyOrder;
 import jakarta.json.bind.config.BinaryDataStrategy;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DynamicBufferResizingTest {
     @Test
@@ -54,10 +55,12 @@ public class DynamicBufferResizingTest {
         jsonb.close();
     }
 
-    @Test(expected = JsonbException.class)
+    @Test
     public void failOnMissingProp() throws Exception {
         try (final Jsonb jsonb = JsonbBuilder.create(new JsonbConfig().setProperty("jsonb.creator-parameters-required", true))) {
-            jsonb.fromJson(jsonb.toJson(new Request("Screenshot.png", null, null)), Request.class);
+            String json = jsonb.toJson(new Request("Screenshot.png", null, null));
+
+            assertThrows(JsonbException.class, () -> jsonb.fromJson(json, Request.class));
         }
     }
 

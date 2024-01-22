@@ -18,18 +18,19 @@
  */
 package org.apache.johnzon.jsonb;
 
-import org.apache.johnzon.jsonb.test.JsonbRule;
-import org.junit.Rule;
-import org.junit.Test;
+import org.apache.johnzon.jsonb.test.JsonbJunitExtension;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 
 import jakarta.json.bind.adapter.JsonbAdapter;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class JsonbAdapterTest {
 
-    @Rule
-    public JsonbRule jsonbRule = new JsonbRule().withTypeAdapter(new ColorIdAdapter());
+    @RegisterExtension
+    public JsonbJunitExtension JsonbJunitExtension = new JsonbJunitExtension()
+            .configure(jsonbConfig -> jsonbConfig.withAdapters(new ColorIdAdapter()));
 
     @Test
     public void testInheritedAdapterRecognized() {
@@ -37,7 +38,7 @@ public class JsonbAdapterTest {
         ColorId colorId = new ColorId("#336699");
 
         // when
-        String json = jsonbRule.toJson(colorId);
+        String json = JsonbJunitExtension.toJson(colorId);
 
         // then
         assertEquals("\"#336699\"", json);

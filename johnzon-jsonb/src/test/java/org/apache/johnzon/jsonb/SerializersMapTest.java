@@ -18,11 +18,6 @@
  */
 package org.apache.johnzon.jsonb;
 
-import org.apache.johnzon.jsonb.test.JsonbRule;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-
 import jakarta.json.bind.annotation.JsonbTypeDeserializer;
 import jakarta.json.bind.annotation.JsonbTypeSerializer;
 import jakarta.json.bind.serializer.DeserializationContext;
@@ -31,20 +26,26 @@ import jakarta.json.bind.serializer.JsonbSerializer;
 import jakarta.json.bind.serializer.SerializationContext;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonParser;
+import org.apache.johnzon.jsonb.test.JsonbJunitExtension;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SerializersMapTest {
-    @Rule
-    public final JsonbRule jsonb = new JsonbRule().withFormatting(true);
+    @RegisterExtension
+    public final JsonbJunitExtension jsonb = new JsonbJunitExtension()
+            .configure(jsonbConfig -> jsonbConfig.withFormatting(true));
 
-    @Before
+    @BeforeEach
     public void init() {
         MapDeSer.serializerCalled = false;
         MapDeSer.deserializerCalled = false;

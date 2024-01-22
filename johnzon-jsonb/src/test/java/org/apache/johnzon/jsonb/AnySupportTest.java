@@ -18,20 +18,20 @@
  */
 package org.apache.johnzon.jsonb;
 
-import org.apache.johnzon.jsonb.test.JsonbRule;
+import org.apache.johnzon.jsonb.test.JsonbJunitExtension;
 import org.apache.johnzon.mapper.JohnzonAny;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 import java.util.Objects;
 
 import static java.util.Collections.singletonMap;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AnySupportTest {
-    @Rule
-    public final JsonbRule rule = new JsonbRule();
+    @RegisterExtension
+    public final JsonbJunitExtension rule = new JsonbJunitExtension();
 
     @Test
     public void roundTrip() {

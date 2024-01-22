@@ -18,10 +18,6 @@
  */
 package org.apache.johnzon.jsonb;
 
-import org.apache.johnzon.mapper.reflection.JohnzonParameterizedType;
-import org.junit.Ignore;
-import org.junit.Test;
-
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonBuilderFactory;
@@ -31,6 +27,10 @@ import jakarta.json.JsonValue;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbException;
+import org.apache.johnzon.mapper.reflection.JohnzonParameterizedType;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayDeque;
@@ -51,12 +51,12 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 // taken from the examples of the spec
 // TODO: bunch of asserts
@@ -66,7 +66,7 @@ public class DefaultMappingTest {
     private static final Jsonb JSONB = JsonbBuilder.create();
 
     @Test
-    @Ignore("should it be supported")
+    @Disabled("should it be supported")
     public void primitives() throws Exception {
         fromJsonPrimitives();
         toJsonPrimitives();

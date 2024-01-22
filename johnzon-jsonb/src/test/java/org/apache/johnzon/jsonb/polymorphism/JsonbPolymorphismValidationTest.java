@@ -18,20 +18,20 @@
  */
 package org.apache.johnzon.jsonb.polymorphism;
 
-import org.apache.johnzon.jsonb.test.JsonbRule;
-import org.junit.Rule;
-import org.junit.Test;
+import org.apache.johnzon.jsonb.test.JsonbJunitExtension;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 
 import jakarta.json.bind.JsonbException;
 import jakarta.json.bind.annotation.JsonbSubtype;
 import jakarta.json.bind.annotation.JsonbTypeInfo;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class JsonbPolymorphismValidationTest {
 
-    @Rule public JsonbRule jsonb = new JsonbRule();
+    @RegisterExtension public JsonbJunitExtension jsonb = new JsonbJunitExtension();
 
     @Test
     public void testMultipleParentsSerialization() {

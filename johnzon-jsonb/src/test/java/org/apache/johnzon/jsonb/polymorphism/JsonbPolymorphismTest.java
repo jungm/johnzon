@@ -21,25 +21,23 @@ package org.apache.johnzon.jsonb.polymorphism;
 import jakarta.json.bind.annotation.JsonbCreator;
 import jakarta.json.bind.annotation.JsonbDateFormat;
 import jakarta.json.bind.annotation.JsonbProperty;
-import org.apache.johnzon.jsonb.test.JsonbRule;
-import org.hamcrest.CoreMatchers;
-import org.junit.Rule;
-import org.junit.Test;
-
 import jakarta.json.bind.annotation.JsonbSubtype;
 import jakarta.json.bind.annotation.JsonbTypeInfo;
+import org.apache.johnzon.jsonb.test.JsonbJunitExtension;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class JsonbPolymorphismTest {
 
-    @Rule public JsonbRule jsonb = new JsonbRule();
+    @RegisterExtension public JsonbJunitExtension jsonb = new JsonbJunitExtension();
 
     @Test
     public void testSerialization() {
@@ -88,15 +86,14 @@ public class JsonbPolymorphismTest {
         SomeDateType deserialized = jsonb.fromJson("{\"@dateType\":\"constructor\",\"localDate\":\"26-02-2021\"}",
                                                    SomeDateType.class);
 
-        assertThat("Incorrectly deserialized according to the type information. Expected was DateConstructor instance. "
-                   + "Got instance of class " + deserialized.getClass(),
-                   deserialized, CoreMatchers.instanceOf(DateConstructor.class));
+        assertInstanceOf(DateConstructor.class, deserialized,
+                "Incorrectly deserialized according to the type information. Expected was DateConstructor instance. "
+                + "Got instance of class " + deserialized.getClass());
 
         final DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("dd-MM-yyyy").withLocale(Locale.forLanguageTag("nl-NL"));
-        assertThat("Date isn't the expected one",
-                   ((DateConstructor) deserialized).getLocalDate(),
-                   CoreMatchers.equalTo(LocalDate.parse("26-02-2021", formatter)));
+
+        assertEquals(LocalDate.parse("26-02-2021", formatter), ((DateConstructor) deserialized).getLocalDate());
 
     }
 

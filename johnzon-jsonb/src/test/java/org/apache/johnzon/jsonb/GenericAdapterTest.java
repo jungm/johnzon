@@ -13,7 +13,7 @@
  */
 package org.apache.johnzon.jsonb;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
@@ -21,7 +21,7 @@ import jakarta.json.bind.JsonbConfig;
 import jakarta.json.bind.adapter.JsonbAdapter;
 import jakarta.json.bind.config.PropertyOrderStrategy;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class GenericAdapterTest {
 

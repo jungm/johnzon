@@ -18,7 +18,7 @@
  */
 package org.apache.johnzon.jsonb;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
@@ -27,13 +27,13 @@ import jakarta.json.bind.JsonbConfig;
 import org.apache.johnzon.jsonb.model.NillableType;
 import org.apache.johnzon.jsonb.model.nillable.NotNillablePropertyModel;
 import org.apache.johnzon.jsonb.model.nillable.notnillable.StringHolder;
-import org.apache.johnzon.jsonb.test.JsonbRule;
-import org.junit.Rule;
-import org.junit.Test;
+import org.apache.johnzon.jsonb.test.JsonbJunitExtension;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 
 public class NillableTest {
-    @Rule
-    public final JsonbRule jsonb = new JsonbRule();
+    @RegisterExtension
+    public final JsonbJunitExtension jsonb = new JsonbJunitExtension();
 
     @Test
     public void propertyWinsOverPackage() {

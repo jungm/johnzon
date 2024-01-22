@@ -18,7 +18,7 @@
  */
 package org.apache.johnzon.jsonb;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -27,13 +27,13 @@ import jakarta.json.Json;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonParser;
 
-import org.apache.johnzon.jsonb.test.JsonbRule;
-import org.junit.Rule;
-import org.junit.Test;
+import org.apache.johnzon.jsonb.test.JsonbJunitExtension;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 
 public class ParserGeneratorMappingTest {
-    @Rule
-    public final JsonbRule rule = new JsonbRule();
+    @RegisterExtension
+    public final JsonbJunitExtension rule = new JsonbJunitExtension();
 
     @Test
     public void parser() {

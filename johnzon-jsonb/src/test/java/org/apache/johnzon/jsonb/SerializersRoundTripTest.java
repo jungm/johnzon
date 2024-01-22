@@ -18,7 +18,7 @@
  */
 package org.apache.johnzon.jsonb;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -41,7 +41,7 @@ import jakarta.json.bind.serializer.SerializationContext;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonParser;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class SerializersRoundTripTest {
     

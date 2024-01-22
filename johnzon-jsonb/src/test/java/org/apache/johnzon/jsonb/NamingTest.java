@@ -18,20 +18,20 @@
  */
 package org.apache.johnzon.jsonb;
 
-import org.apache.johnzon.jsonb.test.JsonbRule;
-import org.junit.Rule;
-import org.junit.Test;
+import org.apache.johnzon.jsonb.test.JsonbJunitExtension;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 
 import jakarta.json.bind.annotation.JsonbCreator;
 import jakarta.json.bind.config.PropertyNamingStrategy;
 import java.util.StringJoiner;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NamingTest {
-    @Rule
-    public final JsonbRule jsonb = new JsonbRule()
-            .withPropertyNamingStrategy(PropertyNamingStrategy.LOWER_CASE_WITH_UNDERSCORES);
+    @RegisterExtension
+    public final JsonbJunitExtension jsonb = new JsonbJunitExtension()
+            .configure(jsonbConfig -> jsonbConfig.withPropertyNamingStrategy(PropertyNamingStrategy.LOWER_CASE_WITH_UNDERSCORES));
 
     @Test
     public void lower() {

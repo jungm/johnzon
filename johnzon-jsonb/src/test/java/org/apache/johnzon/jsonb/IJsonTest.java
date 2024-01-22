@@ -18,8 +18,8 @@
  */
 package org.apache.johnzon.jsonb;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -31,7 +31,7 @@ import jakarta.json.bind.JsonbConfig;
 import jakarta.json.bind.JsonbException;
 
 import org.apache.johnzon.jsonb.model.Holder;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class IJsonTest {
     @Test

@@ -17,7 +17,7 @@
 package org.apache.johnzon.jsonb;
 
 import org.apache.johnzon.mapper.MapperException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class JsonbBeanGetterUserExceptionsTest {
 
