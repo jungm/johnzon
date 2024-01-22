@@ -18,9 +18,8 @@
  */
 package org.apache.johnzon.mapper;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.StringReader;
 import java.util.List;
@@ -29,20 +28,16 @@ import java.util.Map;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(Parameterized.class)
 public class MapperGenericsTest {
-    @Parameterized.Parameter
-    public String accessMode;
-
-    @Parameterized.Parameters(name = "{0}")
     public static Iterable<String> modes() {
         return asList("field", "method", "both", "strict-method");
     }
 
-    @Test
-    public void base() {
+    @ParameterizedTest
+    @MethodSource("modes")
+    public void base(String accessMode) {
         final Mapper mapper = new MapperBuilder().setAccessModeName(accessMode).build();
 
         final Foo foo = new Foo();
@@ -55,8 +50,9 @@ public class MapperGenericsTest {
         assertEquals("n", Concrete.class.cast(mapper.readObject(new StringReader(asString), Concrete.class)).getValue().name);
     }
 
-    @Test
-    public void list() {
+    @ParameterizedTest
+    @MethodSource("modes")
+    public void list(String accessMode) {
         final Mapper mapper = new MapperBuilder().setAccessModeName(accessMode).build();
 
         final Foo foo = new Foo();
@@ -69,8 +65,9 @@ public class MapperGenericsTest {
         assertEquals("n", ConcreteList.class.cast(mapper.readObject(new StringReader(asString), ConcreteList.class)).getValue().iterator().next().name);
     }
 
-    @Test
-    public void map() {
+    @ParameterizedTest
+    @MethodSource("modes")
+    public void map(String accessMode) {
         final Mapper mapper = new MapperBuilder().setAccessModeName(accessMode).build();
 
         final Foo foo = new Foo();

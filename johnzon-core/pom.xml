@@ -49,6 +49,14 @@
     </plugins>
   </build>
 
+  <dependencies>
+    <!-- TODO loads of @Test(expected=SomeException.class) cases -->
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+    </dependency>
+  </dependencies>
+
 <!-- avoid warnings at build time + this is not sufficient to run anyway (edit ts.jte)
   <profiles>
     <profile>

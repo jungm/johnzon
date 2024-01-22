@@ -18,33 +18,33 @@
  */
 package org.apache.johnzon.jaxrs;
 
-import org.apache.cxf.endpoint.Server;
-import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
-import org.apache.cxf.jaxrs.client.WebClient;
-import org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider;
-import org.apache.cxf.transport.local.LocalConduit;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
+import org.apache.cxf.endpoint.Server;
+import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
+import org.apache.cxf.jaxrs.client.WebClient;
+import org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider;
+import org.apache.cxf.transport.local.LocalConduit;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ConfigurableJohnzonProviderTest {
     private final static String ENDPOINT_ADDRESS = "local://johnzon";
     private static Server server;
 
-    @BeforeClass
+    @BeforeAll
     public static void bindEndpoint() throws Exception {
         final JAXRSServerFactoryBean sf = new JAXRSServerFactoryBean();
         sf.setResourceClasses(JohnzonResource.class);
@@ -54,7 +54,7 @@ public class ConfigurableJohnzonProviderTest {
         server = sf.create();
     }
 
-    @AfterClass
+    @AfterAll
     public static void unbind() throws Exception {
         server.stop();
         server.destroy();

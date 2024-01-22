@@ -18,22 +18,24 @@
  */
 package org.apache.johnzon.mapper;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public class EnumTest {
 
-    @Test(expected = MapperException.class)
+    @Test
     public void testUnknownEnumValue() {
         Mapper mapper = newTestMapperBuilder().build();
 
         String json = "{\"myEnum\":\"UNKNOWN\"}";
-        SimpleObject simpleObject = mapper.<SimpleObject>readObject(json, SimpleObject.class);
+        assertThrows(MapperException.class, () -> mapper.<SimpleObject>readObject(json, SimpleObject.class));
     }
 
     @Test
@@ -52,9 +54,9 @@ public class EnumTest {
         SimpleObject object = new SimpleObject(MyEnum.TWO);
 
         String objectAsString = mapper.writeObjectAsString(object);
-        Assert.assertEquals("{\"myEnum\":\"TWO\"}", objectAsString);
+        Assertions.assertEquals("{\"myEnum\":\"TWO\"}", objectAsString);
 
-        Assert.assertEquals(object.myEnum, mapper.<SimpleObject>readObject(objectAsString, SimpleObject.class).myEnum);
+        Assertions.assertEquals(object.myEnum, mapper.<SimpleObject>readObject(objectAsString, SimpleObject.class).myEnum);
     }
 
     @Test
@@ -78,11 +80,11 @@ public class EnumTest {
 
         String jsonString = "{\"enums\":[\"ONE\",\"TWO\",\"THREE\",\"TWO\"]}";
 
-        Assert.assertEquals(object.enums, mapper.<CollectionObject>readObject(jsonString, CollectionObject.class).enums);
+        Assertions.assertEquals(object.enums, mapper.<CollectionObject>readObject(jsonString, CollectionObject.class).enums);
 
         String johnzonString = mapper.writeObjectAsString(object);
-        Assert.assertEquals(jsonString, johnzonString);
-        Assert.assertEquals(object.enums, mapper.<CollectionObject>readObject(johnzonString, CollectionObject.class).enums);
+        Assertions.assertEquals(jsonString, johnzonString);
+        Assertions.assertEquals(object.enums, mapper.<CollectionObject>readObject(johnzonString, CollectionObject.class).enums);
     }
 
 
@@ -106,11 +108,11 @@ public class EnumTest {
         String json = newTestMapperBuilder().build().writeObjectAsString(eso);
 
         EnumSetObject eso2 = newTestMapperBuilder().build().readObject(json, EnumSetObject.class);
-        Assert.assertNotNull(eso2);
-        Assert.assertNotNull(eso2.getEnumset());
-        Assert.assertEquals(2, eso2.getEnumset().size());
-        Assert.assertTrue(eso2.getEnumset().contains(AdvancedEnum.VALUE_1));
-        Assert.assertTrue(eso2.getEnumset().contains(AdvancedEnum.VALUE_2));
+        Assertions.assertNotNull(eso2);
+        Assertions.assertNotNull(eso2.getEnumset());
+        Assertions.assertEquals(2, eso2.getEnumset().size());
+        Assertions.assertTrue(eso2.getEnumset().contains(AdvancedEnum.VALUE_1));
+        Assertions.assertTrue(eso2.getEnumset().contains(AdvancedEnum.VALUE_2));
     }
 
     private void testAdvancedEnum(Mapper mapper) {
@@ -122,15 +124,15 @@ public class EnumTest {
         String jsonString = "{\"advancedEnum\":\"VALUE_1\",\"advancedEnums\":[\"VALUE_2\",\"VALUE_1\",\"VALUE_1\",\"VALUE_2\"]}";
 
         AdvancedEnumObject johnzonObject = mapper.readObject(jsonString, AdvancedEnumObject.class);
-        Assert.assertEquals(object.advancedEnum, johnzonObject.advancedEnum);
-        Assert.assertEquals(object.advancedEnums, johnzonObject.advancedEnums);
+        Assertions.assertEquals(object.advancedEnum, johnzonObject.advancedEnum);
+        Assertions.assertEquals(object.advancedEnums, johnzonObject.advancedEnums);
 
         String johnzonString = mapper.writeObjectAsString(object);
-        Assert.assertEquals(jsonString, johnzonString);
+        Assertions.assertEquals(jsonString, johnzonString);
 
         johnzonObject = mapper.readObject(johnzonString, AdvancedEnumObject.class);
-        Assert.assertEquals(object.advancedEnum, johnzonObject.advancedEnum);
-        Assert.assertEquals(object.advancedEnums, johnzonObject.advancedEnums);
+        Assertions.assertEquals(object.advancedEnum, johnzonObject.advancedEnum);
+        Assertions.assertEquals(object.advancedEnums, johnzonObject.advancedEnums);
     }
 
     private MapperBuilder newTestMapperBuilder() {

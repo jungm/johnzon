@@ -18,37 +18,30 @@
  */
 package org.apache.johnzon.mapper;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
 import jakarta.json.JsonValue;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.beans.ConstructorProperties;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 
-@RunWith(value = Parameterized.class)
 public class ObjectConverterWithAnnotationTest {
 
     private static final String MANUFACTURER_ID = "manufacturerId";
     private static final String TYPE_INDEX = "typeIndex";
 
 
-    @Parameterized.Parameter
-    public String accessMode;
-
-
-    @Parameterized.Parameters()
     public static Iterable<String> accessModes() {
         return Arrays.asList("field", "method", "both", "strict-method");
     }
 
 
-    @Test
-    public void testSerializeWithObjectConverter() {
+    @ParameterizedTest
+    @MethodSource("accessModes")
+    public void testSerializeWithObjectConverter(String accessMode) {
 
         Mapper mapper = new MapperBuilder().setAccessModeName(accessMode)
                                            .setAttributeOrder(String.CASE_INSENSITIVE_ORDER)
@@ -57,8 +50,8 @@ public class ObjectConverterWithAnnotationTest {
         Cyclist cyclist = new Cyclist("Peter Sagan", new Bike("Specialized / S-Works", BikeType.ROAD));
 
         String json = mapper.writeObjectAsString(cyclist);
-        Assert.assertNotNull(json);
-        Assert.assertEquals("{" +
+        Assertions.assertNotNull(json);
+        Assertions.assertEquals("{" +
                               "\"bike\":{" +
                                 "\"" + MANUFACTURER_ID + "\":0," +
                                 "\"" + TYPE_INDEX + "\":0" +
@@ -68,8 +61,9 @@ public class ObjectConverterWithAnnotationTest {
 
     }
 
-    @Test
-    public void testDeserializeWithObjectConverter() {
+    @ParameterizedTest
+    @MethodSource("accessModes")
+    public void testDeserializeWithObjectConverter(String accessMode) {
 
         Mapper mapper = new MapperBuilder().setAccessModeName(accessMode)
                                            .build();
@@ -85,13 +79,14 @@ public class ObjectConverterWithAnnotationTest {
         Cyclist expected = new Cyclist("Jan Frodeno", new Bike("Canyon", BikeType.TRIATHLON));
 
         Object cyclist = mapper.readObject(json, Cyclist.class);
-        Assert.assertNotNull(cyclist);
-        Assert.assertEquals(expected, cyclist);
+        Assertions.assertNotNull(cyclist);
+        Assertions.assertEquals(expected, cyclist);
     }
 
 
-    @Test
-    public void testSerializeObjectWithCollectionAndObjectConverter() {
+    @ParameterizedTest
+    @MethodSource("accessModes")
+    public void testSerializeObjectWithCollectionAndObjectConverter(String accessMode) {
 
         Mapper mapper = new MapperBuilder().setAccessModeName(accessMode)
                                            .setAttributeOrder(String.CASE_INSENSITIVE_ORDER)
@@ -103,8 +98,8 @@ public class ObjectConverterWithAnnotationTest {
                                                              new Cyclist("Andr\u00e9 Greipel", new Bike("Trek", BikeType.ROAD))));// i know they don't have Trek bikes ;)
 
         String json = mapper.writeObjectAsString(tourDeFrance);
-        Assert.assertNotNull(json);
-        Assert.assertEquals("{" +
+        Assertions.assertNotNull(json);
+        Assertions.assertEquals("{" +
                               "\"cyclists\":[" +
                                 "{" +
                                   "\"bike\":{" +
@@ -133,8 +128,9 @@ public class ObjectConverterWithAnnotationTest {
                             "}", json);
     }
 
-    @Test
-    public void testDeserializeObjectWithCollectionAndObjectConverter() {
+    @ParameterizedTest
+    @MethodSource("accessModes")
+    public void testDeserializeObjectWithCollectionAndObjectConverter(String accessMode) {
 
         CycleRace expected = new CycleRace(true, false,
                                            Arrays.asList(new Cyclist("Alexander Kristoff", new Bike("Canyon", BikeType.ROAD))));
@@ -157,12 +153,13 @@ public class ObjectConverterWithAnnotationTest {
                       "}";
 
         Object tourDeFlanderen = mapper.readObject(json, CycleRace.class);
-        Assert.assertNotNull(tourDeFlanderen);
-        Assert.assertEquals(expected, tourDeFlanderen);
+        Assertions.assertNotNull(tourDeFlanderen);
+        Assertions.assertEquals(expected, tourDeFlanderen);
     }
 
-    @Test
-    public void testDeserializeObjectWithAnnotatedConsturctorParameter() {
+    @ParameterizedTest
+    @MethodSource("accessModes")
+    public void testDeserializeObjectWithAnnotatedConsturctorParameter(String accessMode) {
 
         String json = "{" +
                         "\"bike\": {" +
@@ -176,8 +173,8 @@ public class ObjectConverterWithAnnotationTest {
                                            .build();
 
         BikeWrapper bikeWrapper = mapper.readObject(json, BikeWrapper.class);
-        Assert.assertNotNull(bikeWrapper);
-        Assert.assertEquals(bikeWrapper.getBike(), new Bike("Canyon", BikeType.ROAD));
+        Assertions.assertNotNull(bikeWrapper);
+        Assertions.assertEquals(bikeWrapper.getBike(), new Bike("Canyon", BikeType.ROAD));
     }
 
     public static class BikeWrapper {

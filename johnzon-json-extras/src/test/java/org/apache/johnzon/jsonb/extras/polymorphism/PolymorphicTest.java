@@ -20,9 +20,10 @@ package org.apache.johnzon.jsonb.extras.polymorphism;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 
@@ -32,8 +33,7 @@ import jakarta.json.bind.JsonbConfig;
 import jakarta.json.bind.annotation.JsonbTypeDeserializer;
 import jakarta.json.bind.annotation.JsonbTypeSerializer;
 import jakarta.json.bind.config.PropertyOrderStrategy;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class PolymorphicTest {
     private static final String JSON = "{\"root\":{\"_type\":\"first\",\"_value\":{\"name\":\"simple\",\"type\":\"c1\"}}," +
@@ -66,7 +66,7 @@ public class PolymorphicTest {
         try (final Jsonb jsonb = JsonbBuilder.create(new JsonbConfig().withPropertyOrderStrategy(PropertyOrderStrategy.LEXICOGRAPHICAL))) {
             final Wrapper wrapper = jsonb.fromJson(JSON, Wrapper.class);
             assertNotNull(wrapper.root);
-            assertThat(wrapper.root, instanceOf(Child1.class));
+            assertInstanceOf(Child1.class, wrapper.root);
             assertEquals("simple", wrapper.root.name);
             assertEquals("c1", Child1.class.cast(wrapper.root).type);
 

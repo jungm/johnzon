@@ -18,8 +18,8 @@
  */
 package org.apache.johnzon.mapper;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.StringWriter;
 import java.util.Arrays;
@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  * This test is usually being executed manually.
  * It contains a few performance related tests and is intended for profiling etc.
  */
-@Ignore // intended to be run manually from an IDE for example.
+@Disabled // intended to be run manually from an IDE for example.
 public class MapperPerformanceTest {
 
     public static final int ARRAY_SIZE = 60_000_000;

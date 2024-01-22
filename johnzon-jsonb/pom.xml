@@ -108,6 +108,12 @@
       <artifactId>openwebbeans-spi</artifactId>
       <version>${owb.version}</version>
     </dependency>
+
+    <!-- TODO replace JsonbRule -->
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+    </dependency>
   </dependencies>
 
   <build>

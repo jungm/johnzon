@@ -16,13 +16,13 @@
  */
 package org.apache.johnzon.mapper;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ExceptionAsserts {
 
@@ -36,12 +36,12 @@ public class ExceptionAsserts {
         final String message = String.format("%s not an instance of %s",
                 throwable.getClass().getSimpleName(),
                 expected.getSimpleName());
-        assertTrue(message, expected.isAssignableFrom(throwable.getClass()));
+        assertTrue(expected.isAssignableFrom(throwable.getClass()), message);
         return this;
     }
 
     public ExceptionAsserts assertSame(final Throwable expected) {
-        Assert.assertSame(expected, throwable);
+        Assertions.assertSame(expected, throwable);
         return this;
     }
     

@@ -18,9 +18,8 @@
  */
 package org.apache.johnzon.mapper.access;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -29,11 +28,9 @@ import java.util.List;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(Parameterized.class)
 public class FieldAndMethodAccessModeTest {
-    @Parameterized.Parameters
     public static Collection<Object[]> data() {
         return asList(
                 new Object[]{
@@ -75,29 +72,22 @@ public class FieldAndMethodAccessModeTest {
         );
     }
 
-    private final FieldAndMethodAccessMode accessMode;
-    private final Class<?> model;
-    private final Collection<String> resultGetters;
-    private final Collection<String> resultSetters;
-
-    public FieldAndMethodAccessModeTest(final FieldAndMethodAccessMode accessMode,
-                                        final Class<?> model,
-                                        final List<String> resultGetters,
-                                        final List<String> resultSetters) {
-        this.accessMode = accessMode;
-        this.model = model;
-        this.resultGetters = new HashSet<>(resultGetters);
-        this.resultSetters = new HashSet<>(resultSetters);
+    @ParameterizedTest
+    @MethodSource("data")
+    public void getters(final FieldAndMethodAccessMode accessMode,
+                        final Class<?> model,
+                        final List<String> resultGetters,
+                        final List<String> resultSetters) {
+        assertEquals(new HashSet<>(resultGetters), accessMode.findReaders(model).keySet());
     }
 
-    @Test
-    public void getters() {
-        assertEquals(resultGetters, accessMode.findReaders(model).keySet());
-    }
-
-    @Test
-    public void setters() {
-        assertEquals(resultSetters, accessMode.findWriters(model).keySet());
+    @ParameterizedTest
+    @MethodSource("data")
+    public void setters(final FieldAndMethodAccessMode accessMode,
+                        final Class<?> model,
+                        final List<String> resultGetters,
+                        final List<String> resultSetters) {
+        assertEquals(new HashSet<>(resultSetters), accessMode.findWriters(model).keySet());
     }
 
     public static class POJO {

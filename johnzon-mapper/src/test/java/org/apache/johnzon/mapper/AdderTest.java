@@ -19,11 +19,11 @@
 package org.apache.johnzon.mapper;
 
 import static java.util.Collections.singletonMap;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedHashMap;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AdderTest {
     @Test

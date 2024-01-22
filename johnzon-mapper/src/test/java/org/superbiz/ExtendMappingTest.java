@@ -23,7 +23,7 @@ import org.apache.johnzon.mapper.Mappings;
 import org.apache.johnzon.mapper.access.FieldAccessMode;
 import org.apache.johnzon.mapper.converter.EnumConverter;
 import org.apache.johnzon.mapper.map.LazyConverterMap;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
@@ -31,9 +31,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Collections.emptyMap;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // json libs have a meta registry like our Mappings
 // often other libs can use it to do advanced features without instantiating beans (swagger for instance)

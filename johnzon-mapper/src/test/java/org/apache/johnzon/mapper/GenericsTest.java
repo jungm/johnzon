@@ -20,8 +20,8 @@ package org.apache.johnzon.mapper;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Queue;
 
 import org.apache.johnzon.mapper.reflection.JohnzonParameterizedType;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.superbiz.Model;
 
 public class GenericsTest {

@@ -19,9 +19,9 @@
 package org.apache.johnzon.jsonschema;
 
 import static java.util.Collections.emptyMap;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -30,21 +30,21 @@ import java.util.Collection;
 import jakarta.json.Json;
 import jakarta.json.JsonBuilderFactory;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class JsonSchemaValidatorTest {
     private static JsonSchemaValidatorFactory factory;
 
     private final JsonBuilderFactory jsonFactory = Json.createBuilderFactory(emptyMap());
 
-    @BeforeClass
+    @BeforeAll
     public static void init() {
         factory = new JsonSchemaValidatorFactory();
     }
 
-    @AfterClass
+    @AfterAll
     public static void destroy() {
         factory.close();
     }
@@ -74,7 +74,7 @@ public class JsonSchemaValidatorTest {
                             .add("1", "test")
                             .build())
                     .build());
-            assertFalse(result.toString(), result.isSuccess());
+            assertFalse(result.isSuccess(), result.toString());
         }
     }
 
@@ -94,7 +94,7 @@ public class JsonSchemaValidatorTest {
                 .build());
 
         final ValidationResult success = validator.apply(jsonFactory.createObjectBuilder().add("name", "ok").build());
-        assertTrue(success.getErrors().toString(), success.isSuccess());
+        assertTrue(success.isSuccess(), success.getErrors().toString());
 
         final ValidationResult failure = validator.apply(jsonFactory.createObjectBuilder().addNull("name").build());
         assertFalse(failure.isSuccess());
@@ -123,11 +123,11 @@ public class JsonSchemaValidatorTest {
 
         {
             final ValidationResult success = validator.apply(jsonFactory.createObjectBuilder().add("name", "ok").build());
-            assertTrue(success.getErrors().toString(), success.isSuccess());
+            assertTrue(success.isSuccess(), success.getErrors().toString());
         }
         {
             final ValidationResult success = validator.apply(jsonFactory.createObjectBuilder().addNull("name").build());
-            assertTrue(success.getErrors().toString(), success.isSuccess());
+            assertTrue(success.isSuccess(), success.getErrors().toString());
         }
 
         final ValidationResult failure = validator.apply(jsonFactory.createObjectBuilder().add("name", 5).build());
@@ -156,15 +156,15 @@ public class JsonSchemaValidatorTest {
 
         {
             final ValidationResult success = validator.apply(jsonFactory.createObjectBuilder().add("name", "ok").build());
-            assertTrue(success.getErrors().toString(), success.isSuccess());
+            assertTrue(success.isSuccess(), success.getErrors().toString());
         }
         {
             final ValidationResult success = validator.apply(jsonFactory.createObjectBuilder().addNull("name").build());
-            assertTrue(success.getErrors().toString(), success.isSuccess());
+            assertTrue(success.isSuccess(), success.getErrors().toString());
         }
         {
             final ValidationResult success = validator.apply(jsonFactory.createObjectBuilder().add("name", 5).build());
-            assertTrue(success.getErrors().toString(), success.isSuccess());
+            assertTrue(success.isSuccess(), success.getErrors().toString());
         }
 
         final ValidationResult failure = validator.apply(jsonFactory.createObjectBuilder().add("name", true).build());
@@ -202,14 +202,14 @@ public class JsonSchemaValidatorTest {
                         .add("name", "ok")
                         .build())
                 .build());
-        assertTrue(success.getErrors().toString(), success.isSuccess());
+        assertTrue(success.isSuccess(), success.getErrors().toString());
 
         final ValidationResult failure = validator.apply(jsonFactory.createObjectBuilder()
                 .add("person", jsonFactory.createObjectBuilder()
                         .add("name", jsonFactory.createObjectBuilder().build())
                         .build())
                 .build());
-        assertFalse(failure.toString(), failure.isSuccess());
+        assertFalse(failure.isSuccess(), failure.toString());
         final Collection<ValidationResult.ValidationError> errors = failure.getErrors();
         assertEquals(1, errors.size());
         final ValidationResult.ValidationError error = errors.iterator().next();
@@ -232,7 +232,7 @@ public class JsonSchemaValidatorTest {
                 .build());
 
         final ValidationResult success = validator.apply(jsonFactory.createObjectBuilder().add("name", "a").build());
-        assertTrue(success.getErrors().toString(), success.isSuccess());
+        assertTrue(success.isSuccess(), success.getErrors().toString());
 
         final ValidationResult failure = validator.apply(jsonFactory.createObjectBuilder().add("name", 5).build());
         assertFalse(failure.isSuccess());
@@ -258,7 +258,7 @@ public class JsonSchemaValidatorTest {
                 .build());
 
         final ValidationResult success = validator.apply(jsonFactory.createObjectBuilder().add("age", 5).build());
-        assertTrue(success.getErrors().toString(), success.isSuccess());
+        assertTrue(success.isSuccess(), success.getErrors().toString());
 
         final ValidationResult failure = validator.apply(jsonFactory.createObjectBuilder().add("age", 6).build());
         assertFalse(failure.isSuccess());
@@ -581,7 +581,7 @@ public class JsonSchemaValidatorTest {
         final ValidationResult result = validator.apply(jsonFactory.createObjectBuilder()
                 .add("names", jsonFactory.createArrayBuilder().add(2))
                 .build());
-        assertTrue(result.toString(), result.isSuccess());
+        assertTrue(result.isSuccess(), result.toString());
         assertFalse(validator.apply(jsonFactory.createObjectBuilder()
                 .add("names", jsonFactory.createArrayBuilder())
                 .build()).isSuccess());

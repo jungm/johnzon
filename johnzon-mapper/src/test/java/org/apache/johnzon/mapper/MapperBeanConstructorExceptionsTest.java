@@ -16,7 +16,7 @@
  */
 package org.apache.johnzon.mapper;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.beans.ConstructorProperties;
 import java.lang.reflect.Type;
@@ -27,8 +27,8 @@ import java.util.Spliterator;
 import static java.util.Spliterators.spliteratorUnknownSize;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class MapperBeanConstructorExceptionsTest {
 

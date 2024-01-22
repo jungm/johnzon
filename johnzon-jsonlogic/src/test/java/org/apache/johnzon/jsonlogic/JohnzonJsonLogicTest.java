@@ -20,20 +20,21 @@ package org.apache.johnzon.jsonlogic;
 
 import org.apache.johnzon.jsonlogic.spi.AsyncOperator;
 import org.apache.johnzon.jsonlogic.spi.Operator;
-import org.junit.Test;
 
 import jakarta.json.Json;
 import jakarta.json.JsonBuilderFactory;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonPatch;
 import jakarta.json.JsonValue;
+import org.junit.jupiter.api.Test;
+
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static java.util.Collections.emptyMap;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class JohnzonJsonLogicTest {
     private final JohnzonJsonLogic jsonLogic = new JohnzonJsonLogic();

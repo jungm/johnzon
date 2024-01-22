@@ -18,8 +18,8 @@
  */
 package org.apache.johnzon.mapper;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -38,7 +38,8 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.ArrayBlockingQueue;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class MapperEnhancedTest {
 
@@ -68,9 +69,9 @@ public class MapperEnhancedTest {
         new MapperBuilder().setAttributeOrder(attributeOrder).build().writeObject(charClass, sw);
         assertEquals(expectedJson, sw.toString());
         CharClass  read = new MapperBuilder().build().readObject(new StringReader(sw.toString()), CharClass.class);
-        Assert.assertNotNull(read);
-        Assert.assertEquals('G', read.getCharValue());
-        Assert.assertTrue(Arrays.equals(new char[]{'G','O'}, read.getCharArr()));
+        Assertions.assertNotNull(read);
+        Assertions.assertEquals('G', read.getCharValue());
+        Assertions.assertTrue(Arrays.equals(new char[]{'G','O'}, read.getCharArr()));
     }
     
     @Test
@@ -141,7 +142,7 @@ public class MapperEnhancedTest {
         assertEquals(json, sw.toString());
     }
 
-    @Test(expected = MapperException.class)
+    @Test
     public void needConvertersForComplexTypes() {
         final String str = "{" +
             "\"bd\":-456.4567890987654321,\"string\":\"some \\t \\u0001 unicode: ÖÄÜ pppন􏿿\"," +
@@ -156,7 +157,7 @@ public class MapperEnhancedTest {
             "}," +
             "\"map\":{\"[{key1=-100, key11=-1002, key2=100, key22=1002}, {}]\":200}}";
 
-        new MapperBuilder().build().readObject(new StringReader(str), TestClass.class);
+        assertThrows(MapperException.class, () -> new MapperBuilder().build().readObject(new StringReader(str), TestClass.class));
     }
 
     private TestClass buildTestClassInstance() {

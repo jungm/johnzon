@@ -16,8 +16,8 @@
  */
 package org.apache.johnzon.mapper;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 import java.util.List;
@@ -383,7 +383,7 @@ public class DeserializationExceptionMessagesTest {
     }
 
     @Test
-    @Ignore("this probably should not pass")
+    @Disabled("this probably should not pass")
     public void dateFromObject() throws Exception {
         assertMessage("{ \"date\" : {\"red\": 255, \"green\": 165, \"blue\":0} }",
                 "Widget property 'date' of type Date cannot be mapped to json object value: {\"red\":255,\"green\":1...\nU" +

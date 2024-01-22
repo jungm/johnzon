@@ -18,12 +18,12 @@
  */
 package org.apache.johnzon.mapper;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import jakarta.json.Json;
 import java.util.HashMap;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class OverflowTest {
     @Test

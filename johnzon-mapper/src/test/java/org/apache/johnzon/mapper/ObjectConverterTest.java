@@ -18,8 +18,8 @@
  */
 package org.apache.johnzon.mapper;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,8 +50,8 @@ public class ObjectConverterTest {
         String s = mapper.writeObjectAsString(contact);
         Contact c = mapper.readObject(s, Contact.class);
         String expected = "{\"linkedPersons\":[\"f1|l1\",\"f2|l2\"],\"linkedPersonsArray\":[\"f3|l3\",\"f4|l4\"],\"personMap\":{\"cinq\":\"f5|l5\",\"six\":\"f6|l6\"}}";
-        Assert.assertEquals(expected, s);
-        Assert.assertEquals(contact, c);
+        Assertions.assertEquals(expected, s);
+        Assertions.assertEquals(contact, c);
     }
 
 

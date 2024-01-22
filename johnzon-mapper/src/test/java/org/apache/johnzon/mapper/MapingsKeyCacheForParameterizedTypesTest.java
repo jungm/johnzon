@@ -19,11 +19,11 @@
 package org.apache.johnzon.mapper;
 
 import org.apache.johnzon.mapper.reflection.JohnzonParameterizedType;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MapingsKeyCacheForParameterizedTypesTest {
     // before the fix: java.lang.ClassCastException:

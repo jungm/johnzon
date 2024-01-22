@@ -23,8 +23,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalQuery;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class IndirectAdapterTest {
     protected abstract static class GenericTimeAdapter<T extends TemporalAccessor> implements Adapter<T, String> {
@@ -63,7 +63,7 @@ public class IndirectAdapterTest {
     public void testIndirectAdapter() {
         try (final Mapper mapper = new MapperBuilder().build()) {
             final BeanType content = mapper.readObject("{\"date\":\"2019-09-09\"}", BeanType.class);
-            Assert.assertEquals(LocalDate.of(2019, 9, 9), content.date);
+            Assertions.assertEquals(LocalDate.of(2019, 9, 9), content.date);
         }
     }
 }

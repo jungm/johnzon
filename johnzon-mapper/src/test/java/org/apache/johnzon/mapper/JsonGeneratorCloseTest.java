@@ -20,10 +20,9 @@ package org.apache.johnzon.mapper;
 
 import org.apache.johnzon.core.TestBufferProvider;
 import org.apache.johnzon.core.TestJsonGeneratorFactory;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,21 +32,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-@RunWith(Parameterized.class)
 public class JsonGeneratorCloseTest {
 
-    @Parameterized.Parameter
-    public String accessMode;
-
-
-    @Parameterized.Parameters(name = "{0}")
     public static Iterable<String> modes() {
         return Arrays.asList("field", "method", "both", "strict-method");
     }
 
 
-    @Test
-    public void testClose() {
+    @ParameterizedTest
+    @MethodSource("modes")
+    public void testClose(String accessMode) {
 
         TestBufferProvider.INSTANCE.clear();
 
@@ -65,16 +59,17 @@ public class JsonGeneratorCloseTest {
         for (int i = 1; i < 5; i++) {
 
             String json = mapper.writeObjectAsString(toWrite);
-            Assert.assertNotNull(json);
-            Assert.assertEquals("{\"aDouble\":12.12,\"aLong\":9223372036854775807,\"integer\":42,\"name\":\"The Name\"}", json);
+            Assertions.assertNotNull(json);
+            Assertions.assertEquals("{\"aDouble\":12.12,\"aLong\":9223372036854775807,\"integer\":42,\"name\":\"The Name\"}", json);
 
-            Assert.assertEquals(i, TestBufferProvider.INSTANCE.newBufferCalls());
-            Assert.assertEquals(i, TestBufferProvider.INSTANCE.releaseCalls());
+            Assertions.assertEquals(i, TestBufferProvider.INSTANCE.newBufferCalls());
+            Assertions.assertEquals(i, TestBufferProvider.INSTANCE.releaseCalls());
         }
     }
 
-    @Test
-    public void testCloseWithException() {
+    @ParameterizedTest
+    @MethodSource("modes")
+    public void testCloseWithException(String accessMode) {
 
         // first clear our bufferProvider
         TestBufferProvider.INSTANCE.clear();
@@ -91,11 +86,11 @@ public class JsonGeneratorCloseTest {
         toWrite.setaDouble(12.12);
 
         String json = mapper.writeObjectAsString(toWrite);
-        Assert.assertNotNull(json);
-        Assert.assertEquals("{\"aDouble\":12.12,\"aLong\":9223372036854775807,\"integer\":42,\"name\":\"The Name\"}", json);
+        Assertions.assertNotNull(json);
+        Assertions.assertEquals("{\"aDouble\":12.12,\"aLong\":9223372036854775807,\"integer\":42,\"name\":\"The Name\"}", json);
 
-        Assert.assertEquals(1, TestBufferProvider.INSTANCE.newBufferCalls());
-        Assert.assertEquals(1, TestBufferProvider.INSTANCE.releaseCalls());
+        Assertions.assertEquals(1, TestBufferProvider.INSTANCE.newBufferCalls());
+        Assertions.assertEquals(1, TestBufferProvider.INSTANCE.releaseCalls());
 
         ClassToWrite toWriteWithExcpetion = new ClassToWrite();
         toWriteWithExcpetion.setaDouble(Double.POSITIVE_INFINITY);
@@ -105,18 +100,19 @@ public class JsonGeneratorCloseTest {
 
             try {
                 json = mapper.writeObjectAsString(toWriteWithExcpetion);
-                Assert.fail("NumberFormatException expected");
+                Assertions.fail("NumberFormatException expected");
             } catch (NumberFormatException e) {
                 // expected -> all fine
             }
 
-            Assert.assertEquals(i, TestBufferProvider.INSTANCE.newBufferCalls());
-            Assert.assertEquals(i, TestBufferProvider.INSTANCE.releaseCalls());
+            Assertions.assertEquals(i, TestBufferProvider.INSTANCE.newBufferCalls());
+            Assertions.assertEquals(i, TestBufferProvider.INSTANCE.releaseCalls());
         }
     }
 
-    @Test
-    public void testCloseConcurrent() throws Exception {
+    @ParameterizedTest
+    @MethodSource("modes")
+    public void testCloseConcurrent(String accessMode) throws Exception {
 
         TestBufferProvider.INSTANCE.clear();
 
@@ -151,7 +147,7 @@ public class JsonGeneratorCloseTest {
                     } else {
                         try {
                             result = mapper.writeObjectAsString(toWriteWithExcpetion);
-                            Assert.fail("NumberFormatException expected");
+                            Assertions.fail("NumberFormatException expected");
                         } catch (NumberFormatException e) {
                             // expected -> all fine
                             result = "EXPECTED EXCEPTION";
@@ -167,8 +163,8 @@ public class JsonGeneratorCloseTest {
             result.get();
         }
 
-        Assert.assertEquals(100, TestBufferProvider.INSTANCE.newBufferCalls());
-        Assert.assertEquals(100, TestBufferProvider.INSTANCE.releaseCalls());
+        Assertions.assertEquals(100, TestBufferProvider.INSTANCE.newBufferCalls());
+        Assertions.assertEquals(100, TestBufferProvider.INSTANCE.releaseCalls());
     }
 
 

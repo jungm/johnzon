@@ -19,12 +19,11 @@
 package org.apache.johnzon.mapper;
 
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.api.Assertions;
 
 import jakarta.json.JsonValue;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -36,26 +35,21 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
-@RunWith(Parameterized.class)
 public class ObjectTypeTest {
-
-
-    @Parameterized.Parameter
-    public String accessMode;
-
-    @Parameterized.Parameters(name = "{0}")
+    
     public static Iterable<String> modes() {
         return Arrays.asList("field", "method", "both", "strict-method");
     }
 
 
-    @Test
-    public void testObjectConverterMapper() {
+    @ParameterizedTest
+    @MethodSource("modes")
+    public void testObjectConverterMapper(String accessMode) {
         Mapper mapper = new MapperBuilder()
                 .setAccessModeName(accessMode)
                 .addObjectConverter(Dog.class, new TestWithTypeConverter())
@@ -66,24 +60,26 @@ public class ObjectTypeTest {
         Mutt snoopie = getJavaObject();
 
         String json = mapper.writeObjectAsString(snoopie);
-        Assert.assertNotNull(json);
-        Assert.assertEquals(expectedJsonString, json);
+        Assertions.assertNotNull(json);
+        Assertions.assertEquals(expectedJsonString, json);
     }
 
-    @Test
-    public void testReadWithObjectConverter() {
+    @ParameterizedTest
+    @MethodSource("modes")
+    public void testReadWithObjectConverter(String accessMode) {
 
         Mapper mapper = new MapperBuilder().setAccessModeName(accessMode)
                 .addObjectConverter(Dog.class, new TestWithTypeConverter())
                 .build();
 
         Dog dog = mapper.readObject(getJson(), Dog.class);
-        Assert.assertNotNull(dog);
-        Assert.assertEquals(getJavaObject(), dog);
+        Assertions.assertNotNull(dog);
+        Assertions.assertEquals(getJavaObject(), dog);
     }
 
-    @Test
-    public void testWriteWithAdvancedObjectConverter() {
+    @ParameterizedTest
+    @MethodSource("modes")
+    public void testWriteWithAdvancedObjectConverter(String accessMode) {
 
         String expectedJson = "[{\"poodleName\":\"Poodle1\"},{\"poodleName\":\"Poodle2\"}]";
 
@@ -92,12 +88,13 @@ public class ObjectTypeTest {
                 .build();
 
         String json = mapper.writeObjectAsString(new ArrayList<Poodle>(DBAccessPoodleConverter.POODLES.values()));
-        Assert.assertNotNull(json);
-        Assert.assertEquals(expectedJson, json);
+        Assertions.assertNotNull(json);
+        Assertions.assertEquals(expectedJson, json);
     }
 
-    @Test
-    public void testReadWithAdvancedObjectConverter() {
+    @ParameterizedTest
+    @MethodSource("modes")
+    public void testReadWithAdvancedObjectConverter(String accessMode) {
 
         Mapper mapper = new MapperBuilder().setAccessModeName(accessMode)
                 .addObjectConverter(Poodle.class, new DBAccessPoodleConverter())
@@ -120,15 +117,16 @@ public class ObjectTypeTest {
             }
         });
 
-        Assert.assertNotNull(poodles);
-        Assert.assertEquals(2, poodles.size());
+        Assertions.assertNotNull(poodles);
+        Assertions.assertEquals(2, poodles.size());
         for (Poodle poodle : poodles) {
-            Assert.assertEquals(DBAccessPoodleConverter.POODLES.get(poodle.getName()), poodle);
+            Assertions.assertEquals(DBAccessPoodleConverter.POODLES.get(poodle.getName()), poodle);
         }
     }
 
-    @Test
-    public void testGenericList() {
+    @ParameterizedTest
+    @MethodSource("modes")
+    public void testGenericList(String accessMode) {
         assumeFalse("field".equals(accessMode) /*we need setType*/);
 
         final Multiple multiple = new Multiple();

@@ -21,8 +21,8 @@ package org.apache.johnzon.mapper;
 import org.apache.johnzon.mapper.access.FieldAccessMode;
 import org.apache.johnzon.mapper.reflection.JohnzonCollectionType;
 import org.apache.johnzon.mapper.reflection.JohnzonParameterizedType;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.superbiz.MultiStructureObject;
 
 import java.beans.ConstructorProperties;
@@ -46,13 +46,14 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -661,19 +662,16 @@ public class MapperTest {
 
     }
 
-    @Test(expected = MapperException.class)
+    @Test
     public void literalFail() {
 
-        final Bool instance = new MapperBuilder().build()
-                .readObject(new ByteArrayInputStream("{\"bool\":\"true\"}".getBytes()), Bool.class);
-
-        assertTrue(instance.bool);
-
+        assertThrows(MapperException.class, () -> new MapperBuilder().build()
+                .readObject(new ByteArrayInputStream("{\"bool\":\"true\"}".getBytes()), Bool.class));
     }
 
-    @Test(expected = MapperException.class)
+    @Test
     public void literalFail2() {
-        new MapperBuilder().build().readObject(new ByteArrayInputStream("{\"map\":{\"key\":\"true\"}}".getBytes()), Bool2.class);
+        assertThrows(MapperException.class, () -> new MapperBuilder().build().readObject(new ByteArrayInputStream("{\"map\":{\"key\":\"true\"}}".getBytes()), Bool2.class));
     }
 
     @Test
@@ -907,7 +905,7 @@ public class MapperTest {
     private void expectMapperException(Runnable runnable) {
         try {
             runnable.run();
-            Assert.fail("MapperException expected!");
+            Assertions.fail("MapperException expected!");
         } catch (MapperException me) {
             // all fine!
         }

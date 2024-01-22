@@ -18,12 +18,12 @@
  */
 package org.apache.johnzon.jsonschema.regex;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.stream.Stream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class JsRegexTest {
 
@@ -32,7 +32,7 @@ public class JsRegexTest {
         final String regex = "/^foo/i";
         Stream.of("foo", "foobar", "FoO_")
                 .forEach(val -> Stream.of(new JavascriptRegex(regex), new JoniRegex(regex))
-                        .forEach(validator -> assertTrue(validator.toString() + " # " + val, validator.test(val))));
+                        .forEach(validator -> assertTrue(validator.test(val), validator.toString() + " # " + val)));
     }
 
     @Test
@@ -40,6 +40,6 @@ public class JsRegexTest {
         final String regex = "/^foo/";
         Stream.of("bar", "FoO")
                 .forEach(val -> Stream.of(new JavascriptRegex(regex), new JoniRegex(regex))
-                        .forEach(validator -> assertFalse(validator.toString() + " # " + val, validator.test(val))));
+                        .forEach(validator -> assertFalse(validator.test(val), validator.toString() + " # " + val)));
     }
 }

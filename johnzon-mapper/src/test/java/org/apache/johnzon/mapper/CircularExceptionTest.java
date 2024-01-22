@@ -18,9 +18,9 @@
  */
 package org.apache.johnzon.mapper;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CircularExceptionTest {
     // note that with KnownNotOpenedJavaTypes this test will not test circular case anymore

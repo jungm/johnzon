@@ -18,6 +18,11 @@
  */
 package org.apache.johnzon.mapper;
 
+import jakarta.json.Json;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
@@ -27,14 +32,8 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-import jakarta.json.Json;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class NoWarningTest {
     public ByteArrayOutputStream out;
@@ -43,7 +42,7 @@ public class NoWarningTest {
     private PrintStream oldErr;
     private Handler handler;
 
-    @Before
+    @BeforeEach
     public void capture() {
         out = new ByteArrayOutputStream();
         err = new ByteArrayOutputStream();
@@ -72,7 +71,7 @@ public class NoWarningTest {
         Logger.getLogger("").addHandler(handler);
     }
 
-    @After
+    @AfterEach
     public void reset() {
         System.setOut(oldOut);
         System.setErr(oldErr);

@@ -18,7 +18,7 @@
  */
 package org.apache.johnzon.jsonschema.generator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PojoGeneratorTest {
     private final PojoGenerator.PojoConfiguration configuration = new PojoGenerator.PojoConfiguration()

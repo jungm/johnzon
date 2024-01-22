@@ -20,9 +20,9 @@ package org.apache.johnzon.jaxrs;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -51,9 +51,9 @@ import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider;
 import org.apache.cxf.transport.local.LocalConduit;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class JohnzonProviderTest {
 
@@ -61,7 +61,7 @@ public class JohnzonProviderTest {
 
     private static Server server;
 
-    @BeforeClass
+    @BeforeAll
     public static void bindEndpoint() throws Exception {
         final JAXRSServerFactoryBean sf = new JAXRSServerFactoryBean();
         sf.setResourceClasses(JohnzonResource.class);
@@ -71,7 +71,7 @@ public class JohnzonProviderTest {
         server = sf.create();
     }
 
-    @AfterClass
+    @AfterAll
     public static void unbind() throws Exception {
         server.stop();
         server.destroy();

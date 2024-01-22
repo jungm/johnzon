@@ -18,104 +18,101 @@
  */
 package org.apache.johnzon.mapper;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import static java.util.Arrays.asList;
 
-@RunWith(Parameterized.class)
 public class AdvancedGenericsTest {
-
-    @Parameterized.Parameter
-    public String accessMode;
-
-    @Parameterized.Parameters(name = "{0}")
     public static Iterable<String> modes() {
         return asList("field", "method", "both", "strict-method");
     }
 
-    @Test
-    public void testSerializeHierarchyOne() {
+    @ParameterizedTest
+    @MethodSource("modes")
+    public void testSerializeHierarchyOne(String accessMode) {
         Mapper mapper = new MapperBuilder().setAccessModeName(accessMode)
                                            .build();
 
         {
             String customerAsString = mapper.writeObjectAsString(new Customer("Bruce", "Wayne"));
 
-            Assert.assertTrue("Serialized String must contain \"firstName\":\"Bruce\"", customerAsString.contains("\"firstName\":\"Bruce\""));
-            Assert.assertTrue("Serialized String must contain \"lastName\":\"Wayne\"", customerAsString.contains("\"lastName\":\"Wayne\""));
-            Assert.assertFalse("Serialized String must not contain \"id\": " + customerAsString, customerAsString.contains("\"id\""));
-            Assert.assertFalse("Serialized String must not contain \"version\"", customerAsString.contains("\"version\""));
+            Assertions.assertTrue(customerAsString.contains("\"firstName\":\"Bruce\""), "Serialized String must contain \"firstName\":\"Bruce\"");
+            Assertions.assertTrue(customerAsString.contains("\"lastName\":\"Wayne\""), "Serialized String must contain \"lastName\":\"Wayne\"");
+            Assertions.assertFalse(customerAsString.contains("\"id\""), "Serialized String must not contain \"id\": " + customerAsString);
+            Assertions.assertFalse(customerAsString.contains("\"version\""), "Serialized String must not contain \"version\"");
         }
 
         {
             String customerAsString = mapper.writeObjectAsString(new Customer(160784L, 35, "Clark", "Kent"));
 
-            Assert.assertTrue("Serialized String must contain \"firstName\":\"Bruce\"", customerAsString.contains("\"firstName\":\"Clark\""));
-            Assert.assertTrue("Serialized String must contain \"lastName\":\"Wayne\"", customerAsString.contains("\"lastName\":\"Kent\""));
-            Assert.assertTrue("Serialized String must contain \"id\":160784", customerAsString.contains("\"id\":160784"));
-            Assert.assertTrue("Serialized String must contain \"version\":35", customerAsString.contains("\"version\":35"));
+            Assertions.assertTrue(customerAsString.contains("\"firstName\":\"Clark\""), "Serialized String must contain \"firstName\":\"Bruce\"");
+            Assertions.assertTrue(customerAsString.contains("\"lastName\":\"Kent\""), "Serialized String must contain \"lastName\":\"Wayne\"");
+            Assertions.assertTrue(customerAsString.contains("\"id\":160784"), "Serialized String must contain \"id\":160784");
+            Assertions.assertTrue(customerAsString.contains("\"version\":35"), "Serialized String must contain \"version\":35");
         }
     }
 
-    @Test
-    public void testDeserializeHierarchyOne() {
+    @ParameterizedTest
+    @MethodSource("modes")
+    public void testDeserializeHierarchyOne(String accessMode) {
         Mapper mapper = new MapperBuilder().setAccessModeName(accessMode)
                                            .build();
 
         {
             Customer customer = mapper.readObject("{ \"lastName\":\"Odinson\", \"firstName\":\"Thor\" }", Customer.class);
 
-            Assert.assertNotNull(customer);
-            Assert.assertNull(customer.getId());
-            Assert.assertNull(customer.getVersion());
-            Assert.assertEquals("Thor", customer.getFirstName());
-            Assert.assertEquals("Odinson", customer.getLastName());
+            Assertions.assertNotNull(customer);
+            Assertions.assertNull(customer.getId());
+            Assertions.assertNull(customer.getVersion());
+            Assertions.assertEquals("Thor", customer.getFirstName());
+            Assertions.assertEquals("Odinson", customer.getLastName());
         }
 
         {
             // id as JsonString
             Customer customer = mapper.readObject("{ \"firstName\":\"Loki\", \"lastName\":\"Laufeyson\", \"id\":\"160883\" }", Customer.class);
 
-            Assert.assertNotNull(customer);
-            Assert.assertEquals(160883L, customer.getId().longValue());
-            Assert.assertNull(customer.getVersion());
-            Assert.assertEquals("Loki", customer.getFirstName());
-            Assert.assertEquals("Laufeyson", customer.getLastName());
+            Assertions.assertNotNull(customer);
+            Assertions.assertEquals(160883L, customer.getId().longValue());
+            Assertions.assertNull(customer.getVersion());
+            Assertions.assertEquals("Loki", customer.getFirstName());
+            Assertions.assertEquals("Laufeyson", customer.getLastName());
         }
 
         {
             // id as JsonNumber, version as JsonString
             Customer customer = mapper.readObject("{ \"lastName\":\"Banner\", \"firstName\":\"Bruce\", \"id\":7579, \"version\":\"74\" }", Customer.class);
 
-            Assert.assertNotNull(customer);
-            Assert.assertEquals(7579L,  customer.getId().longValue());
-            Assert.assertEquals(74, customer.getVersion().intValue());
-            Assert.assertEquals("Bruce", customer.firstName);
-            Assert.assertEquals("Banner", customer.lastName);
+            Assertions.assertNotNull(customer);
+            Assertions.assertEquals(7579L,  customer.getId().longValue());
+            Assertions.assertEquals(74, customer.getVersion().intValue());
+            Assertions.assertEquals("Bruce", customer.firstName);
+            Assertions.assertEquals("Banner", customer.lastName);
 
         }
     }
 
-    @Test
-    public void testSerializeHierarchyTwo() {
+    @ParameterizedTest
+    @MethodSource("modes")
+    public void testSerializeHierarchyTwo(String accessMode) {
         Mapper mapper = new MapperBuilder().setAccessModeName(accessMode)
                                            .build();
 
         String vipCustomerAsString = mapper.writeObjectAsString(new VIPCustomer(new Customer(15L, 37, "Lois", "Lane"), 12.5));
 
-        Assert.assertNotNull(vipCustomerAsString);
-        Assert.assertTrue("Serialized String must contain \"firstName\":\"Lois\"", vipCustomerAsString.contains("\"firstName\":\"Lois\""));
-        Assert.assertTrue("Serialized String must contain \"lastName\":\"Lane\"", vipCustomerAsString.contains("\"lastName\":\"Lane\""));
-        Assert.assertTrue("Serialized String must contain \"id\":15", vipCustomerAsString.contains("\"id\":15"));
-        Assert.assertTrue("Serialized String must contain \"version\":37", vipCustomerAsString.contains("\"version\":37"));
-        Assert.assertTrue("Serialized String must contain \"discount\":12.5", vipCustomerAsString.contains("\"discount\":12.5"));
+        Assertions.assertNotNull(vipCustomerAsString);
+        Assertions.assertTrue(vipCustomerAsString.contains("\"firstName\":\"Lois\""), "Serialized String must contain \"firstName\":\"Lois\"");
+        Assertions.assertTrue(vipCustomerAsString.contains("\"lastName\":\"Lane\""), "Serialized String must contain \"lastName\":\"Lane\"");
+        Assertions.assertTrue(vipCustomerAsString.contains("\"id\":15"), "Serialized String must contain \"id\":15");
+        Assertions.assertTrue(vipCustomerAsString.contains("\"version\":37"), "Serialized String must contain \"version\":37");
+        Assertions.assertTrue(vipCustomerAsString.contains("\"discount\":12.5"), "Serialized String must contain \"discount\":12.5");
     }
 
-    @Test
-    public void testDeserializeHierarchyTwo() {
+    @ParameterizedTest
+    @MethodSource("modes")
+    public void testDeserializeHierarchyTwo(String accessMode) {
         Mapper mapper = new MapperBuilder().setAccessModeName(accessMode)
                                            .build();
 
@@ -123,12 +120,12 @@ public class AdvancedGenericsTest {
             // id as JsonString
             VIPCustomer customer = mapper.readObject("{ \"discount\":5, \"id\":\"888\", \"lastName\":\"Ross\", \"firstName\":\"Betty\", \"version\":\"5555\" }", VIPCustomer.class);
 
-            Assert.assertNotNull(customer);
-            Assert.assertEquals(888L, customer.getId().longValue());
-            Assert.assertEquals(5555, customer.getVersion().intValue());
-            Assert.assertEquals("Betty", customer.getFirstName());
-            Assert.assertEquals("Ross", customer.getLastName());
-            Assert.assertEquals(5.0, customer.getDiscount(), 0);
+            Assertions.assertNotNull(customer);
+            Assertions.assertEquals(888L, customer.getId().longValue());
+            Assertions.assertEquals(5555, customer.getVersion().intValue());
+            Assertions.assertEquals("Betty", customer.getFirstName());
+            Assertions.assertEquals("Ross", customer.getLastName());
+            Assertions.assertEquals(5.0, customer.getDiscount(), 0);
         }
 
         {
@@ -136,33 +133,35 @@ public class AdvancedGenericsTest {
             VIPCustomer customer = mapper.readObject("{ \"discount\":25.5, \"id\":478965, \"firstName\":\"Selina\", \"version\":\"3\", \"lastName\":\"Kyle\" }",
                                                      VIPCustomer.class);
 
-            Assert.assertNotNull(customer);
-            Assert.assertEquals(478965L, customer.getId().longValue());
-            Assert.assertEquals(3, customer.getVersion().intValue());
-            Assert.assertEquals("Selina", customer.getFirstName());
-            Assert.assertEquals("Kyle", customer.getLastName());
-            Assert.assertEquals(25.5, customer.getDiscount(), 0);
+            Assertions.assertNotNull(customer);
+            Assertions.assertEquals(478965L, customer.getId().longValue());
+            Assertions.assertEquals(3, customer.getVersion().intValue());
+            Assertions.assertEquals("Selina", customer.getFirstName());
+            Assertions.assertEquals("Kyle", customer.getLastName());
+            Assertions.assertEquals(25.5, customer.getDiscount(), 0);
         }
     }
 
-    @Test
-    public void testSerializeHierarchyThree() {
+    @ParameterizedTest
+    @MethodSource("modes")
+    public void testSerializeHierarchyThree(String accessMode) {
         Mapper mapper = new MapperBuilder().setAccessModeName(accessMode)
                                            .build();
 
         String vipCustomerAsString = mapper.writeObjectAsString(new GoldCustomer(new VIPCustomer(new Customer(6547L, 497, "Peter", "Parker"), 4.2), 1));
 
-        Assert.assertNotNull(vipCustomerAsString);
-        Assert.assertTrue("Serialized String must contain \"firstName\":\"Lois\"", vipCustomerAsString.contains("\"firstName\":\"Peter\""));
-        Assert.assertTrue("Serialized String must contain \"lastName\":\"Lane\"", vipCustomerAsString.contains("\"lastName\":\"Parker\""));
-        Assert.assertTrue("Serialized String must contain \"id\":6547", vipCustomerAsString.contains("\"id\":6547"));
-        Assert.assertTrue("Serialized String must contain \"version\":497", vipCustomerAsString.contains("\"version\":497"));
-        Assert.assertTrue("Serialized String must contain \"discount\":4.2", vipCustomerAsString.contains("\"discount\":4.2"));
-        Assert.assertTrue("Serialized String must contain \"rating\":1", vipCustomerAsString.contains("\"rating\":1"));
+        Assertions.assertNotNull(vipCustomerAsString);
+        Assertions.assertTrue(vipCustomerAsString.contains("\"firstName\":\"Peter\""), "Serialized String must contain \"firstName\":\"Lois\"");
+        Assertions.assertTrue(vipCustomerAsString.contains("\"lastName\":\"Parker\""), "Serialized String must contain \"lastName\":\"Lane\"");
+        Assertions.assertTrue(vipCustomerAsString.contains("\"id\":6547"), "Serialized String must contain \"id\":6547");
+        Assertions.assertTrue(vipCustomerAsString.contains("\"version\":497"), "Serialized String must contain \"version\":497");
+        Assertions.assertTrue(vipCustomerAsString.contains("\"discount\":4.2"), "Serialized String must contain \"discount\":4.2");
+        Assertions.assertTrue(vipCustomerAsString.contains("\"rating\":1"), "Serialized String must contain \"rating\":1");
     }
 
-    @Test
-    public void testDeserializeHierarchyThree() {
+    @ParameterizedTest
+    @MethodSource("modes")
+    public void testDeserializeHierarchyThree(String accessMode) {
         Mapper mapper = new MapperBuilder().setAccessModeName(accessMode)
                                            .build();
 
@@ -170,13 +169,13 @@ public class AdvancedGenericsTest {
         GoldCustomer customer = mapper.readObject("{ \"discount\":5, \"id\":\"8745321\", \"lastName\":\"Watson\", \"firstName\":\"Mary Jane\", \"version\":\"821\" }",
                                                   GoldCustomer.class);
 
-        Assert.assertNotNull(customer);
-        Assert.assertEquals(8745321L, customer.getId().longValue());
-        Assert.assertEquals(821, customer.getVersion().intValue());
-        Assert.assertEquals("Mary Jane", customer.getFirstName());
-        Assert.assertEquals("Watson", customer.getLastName());
-        Assert.assertEquals(5.0, customer.getDiscount(), 0);
-        Assert.assertEquals(0, customer.getRating());
+        Assertions.assertNotNull(customer);
+        Assertions.assertEquals(8745321L, customer.getId().longValue());
+        Assertions.assertEquals(821, customer.getVersion().intValue());
+        Assertions.assertEquals("Mary Jane", customer.getFirstName());
+        Assertions.assertEquals("Watson", customer.getLastName());
+        Assertions.assertEquals(5.0, customer.getDiscount(), 0);
+        Assertions.assertEquals(0, customer.getRating());
     }
 
 

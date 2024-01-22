@@ -19,7 +19,7 @@
 package org.apache.johnzon.mapper;
 
 import org.apache.johnzon.mapper.reflection.JohnzonParameterizedType;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -30,7 +30,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class LiteralTest {
     @Test
@@ -95,7 +96,7 @@ public class LiteralTest {
         assertEquals(expected, read);
     }
 
-    @Test(expected = NumberFormatException.class)
+    @Test
     public void writeReadNumbersInf() {
         final NumberClass nc = new NumberClass();
         final StringWriter sw = new StringWriter();
@@ -109,7 +110,7 @@ public class LiteralTest {
         nc.setLongNumber(123L);
         nc.setIntNumber(123);
 
-        new MapperBuilder().build().writeObject(nc, sw);
+        assertThrows(NumberFormatException.class, () -> new MapperBuilder().build().writeObject(nc, sw));
 
     }
 

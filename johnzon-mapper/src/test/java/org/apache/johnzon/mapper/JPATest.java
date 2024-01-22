@@ -18,33 +18,33 @@
  */
 package org.apache.johnzon.mapper;
 
-import org.apache.openjpa.persistence.OpenJPAPersistence;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Temporal;
+import org.apache.openjpa.persistence.OpenJPAPersistence;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.io.StringReader;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 
 import static jakarta.persistence.TemporalType.DATE;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class JPATest {
     private EntityManagerFactory emf;
     private EntityManager em;
     private long id;
 
-    @Before
+    @BeforeEach
     public void createEm() {
         emf = OpenJPAPersistence.createEntityManagerFactory("johnzon", JPATest.class.getSimpleName() + ".xml", new HashMap() {{
             put("openjpa.jdbc.SynchronizeMappings", "buildSchema(ForeignKeys=true)");
@@ -61,7 +61,7 @@ public class JPATest {
         em.clear();
     }
 
-    @After
+    @AfterEach
     public void clearEm() {
         em.close();
         emf.close();

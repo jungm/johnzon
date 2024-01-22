@@ -18,15 +18,15 @@
  */
 package org.apache.johnzon.mapper.converter;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.nio.charset.StandardCharsets;
 
 import org.apache.johnzon.mapper.Adapter;
 import org.apache.johnzon.mapper.JohnzonConverter;
 import org.apache.johnzon.mapper.MapperBuilder;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class StringerTest {
     private static final String STRING = "hello johnzon";

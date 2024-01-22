@@ -21,7 +21,7 @@ package org.apache.johnzon.maven.plugin;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +31,7 @@ import java.util.Set;
 
 import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.joining;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PojoToJsonSchemaMojoTest {
     @Test

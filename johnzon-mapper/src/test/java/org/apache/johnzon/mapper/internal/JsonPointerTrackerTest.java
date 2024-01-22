@@ -18,8 +18,8 @@
  */
 package org.apache.johnzon.mapper.internal;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class JsonPointerTrackerTest {
 
@@ -28,12 +28,12 @@ public class JsonPointerTrackerTest {
     public void testJsonPointerTracker() {
         JsonPointerTracker jptRoot = JsonPointerTracker.ROOT;
 
-        Assert.assertEquals("/", jptRoot.toString());
+        Assertions.assertEquals("/", jptRoot.toString());
 
         JsonPointerTracker jptAttrL1 = new JsonPointerTracker(jptRoot, "attrL1");
         JsonPointerTracker jptAttrL2 = new JsonPointerTracker(jptAttrL1, "attrL2");
 
-        Assert.assertEquals("/attrL1/attrL2", jptAttrL2.toString());
-        Assert.assertEquals("/attrL1", jptAttrL1.toString());
+        Assertions.assertEquals("/attrL1/attrL2", jptAttrL2.toString());
+        Assertions.assertEquals("/attrL1", jptAttrL1.toString());
     }
 }

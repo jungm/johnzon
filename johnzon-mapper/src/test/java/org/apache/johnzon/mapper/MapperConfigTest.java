@@ -23,8 +23,8 @@ import static java.util.Collections.emptyMap;
 import org.apache.johnzon.mapper.access.FieldAccessMode;
 import org.apache.johnzon.mapper.converter.EnumConverter;
 import org.apache.johnzon.mapper.map.LazyConverterMap;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import jakarta.json.JsonValue;
 
@@ -47,8 +47,8 @@ public class MapperConfigTest {
         MapperConfig config = createConfig(converterMap);
 
         ObjectConverter.Reader converter = config.findObjectConverterReader(ClassWithoutSupertypes.class);
-        Assert.assertNotNull(converter);
-        Assert.assertEquals(theConverter, converter);
+        Assertions.assertNotNull(converter);
+        Assertions.assertEquals(theConverter, converter);
     }
 
     @Test
@@ -59,8 +59,8 @@ public class MapperConfigTest {
         MapperConfig config = createConfig(Collections.<Class<?>, ObjectConverter.Codec<?>>singletonMap(TheInterface.class, theConverter));
 
         ObjectConverter.Writer converter = config.findObjectConverterWriter(ClassForTheInterface.class);
-        Assert.assertNotNull(converter);
-        Assert.assertEquals(theConverter, converter);
+        Assertions.assertNotNull(converter);
+        Assertions.assertEquals(theConverter, converter);
     }
 
     @Test
@@ -71,8 +71,8 @@ public class MapperConfigTest {
         MapperConfig config = createConfig(Collections.<Class<?>, ObjectConverter.Codec<?>>singletonMap(ClassForTheInterface.class, theConverter));
 
         ObjectConverter.Reader converter = config.findObjectConverterReader(ExtendingClassForTheInterface.class);
-        Assert.assertNotNull(converter);
-        Assert.assertEquals(theConverter, converter);
+        Assertions.assertNotNull(converter);
+        Assertions.assertEquals(theConverter, converter);
     }
 
     @Test
@@ -89,14 +89,14 @@ public class MapperConfigTest {
 
         {
             ObjectConverter.Reader converter = config.findObjectConverterReader(ClassForTheInterface.class);
-            Assert.assertNotNull(converter);
-            Assert.assertEquals(theConverter, converter);
+            Assertions.assertNotNull(converter);
+            Assertions.assertEquals(theConverter, converter);
         }
 
         {
             ObjectConverter.Writer converter = config.findObjectConverterWriter(ExtendingClassForTheInterface.class);
-            Assert.assertNotNull(converter);
-            Assert.assertEquals(theConverter, converter);
+            Assertions.assertNotNull(converter);
+            Assertions.assertEquals(theConverter, converter);
         }
     }
 
@@ -112,8 +112,8 @@ public class MapperConfigTest {
         MapperConfig config = createConfig(converterMap);
 
         ObjectConverter.Writer converter = config.findObjectConverterWriter(ClassWithTwoInterfaces.class);
-        Assert.assertNotNull(converter);
-        Assert.assertEquals(converterMap.get(ClassWithTwoInterfaces.class.getInterfaces()[0]), converter);
+        Assertions.assertNotNull(converter);
+        Assertions.assertEquals(converterMap.get(ClassWithTwoInterfaces.class.getInterfaces()[0]), converter);
     }
 
     @Test
@@ -125,14 +125,14 @@ public class MapperConfigTest {
 
         {
             ObjectConverter.Writer converter = config.findObjectConverterWriter(ClassForTheInterface.class);
-            Assert.assertNotNull(converter);
-            Assert.assertEquals(theConverter, converter);
+            Assertions.assertNotNull(converter);
+            Assertions.assertEquals(theConverter, converter);
         }
 
         {
             ObjectConverter.Writer converter = config.findObjectConverterWriter(ExtendingClassForTheInterface.class);
-            Assert.assertNotNull(converter);
-            Assert.assertEquals(theConverter, converter);
+            Assertions.assertNotNull(converter);
+            Assertions.assertEquals(theConverter, converter);
         }
     }
 
@@ -143,16 +143,16 @@ public class MapperConfigTest {
         MapperConfig config = createConfig(Collections.<Class<?>, ObjectConverter.Codec<?>>singletonMap(Object.class, theConverter));
 
         ObjectConverter.Reader converter = config.findObjectConverterReader(ClassForTheInterface.class);
-        Assert.assertNotNull(converter);
-        Assert.assertEquals(theConverter, converter);
+        Assertions.assertNotNull(converter);
+        Assertions.assertEquals(theConverter, converter);
 
         converter = config.findObjectConverterReader(TheInterface.class);
-        Assert.assertNotNull(converter);
-        Assert.assertEquals(theConverter, converter);
+        Assertions.assertNotNull(converter);
+        Assertions.assertEquals(theConverter, converter);
 
         converter = config.findObjectConverterReader(InterfaceExtendingTwoInterfaces.class);
-        Assert.assertNotNull(converter);
-        Assert.assertEquals(theConverter, converter);
+        Assertions.assertNotNull(converter);
+        Assertions.assertEquals(theConverter, converter);
     }
 
 

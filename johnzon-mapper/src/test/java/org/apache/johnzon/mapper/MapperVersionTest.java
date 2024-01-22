@@ -18,28 +18,15 @@
  */
 package org.apache.johnzon.mapper;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.StringWriter;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(Parameterized.class)
 public class MapperVersionTest {
 
-    private final int mapperVersion;
-    private final String name;
-    private final String expectedJson;
-
-    public MapperVersionTest(int mapperVersion, String name, String expectedJson) {
-        this.mapperVersion = mapperVersion;
-        this.name = name;
-        this.expectedJson = expectedJson;
-    }
-
-    @Parameterized.Parameters(name = "Run {index}: mapperVersion={0}, name={1}, expectedJson={2}")
     public static Object[][] data() {
         return new Object[][] {
                 { -1, "foo", "{\"name\":\"foo\"}"}, // no version eg version of -1
@@ -50,8 +37,9 @@ public class MapperVersionTest {
         };
     }
 
-    @Test
-    public void test() {
+    @ParameterizedTest
+    @MethodSource("data")
+    public void test(int mapperVersion, String name, String expectedJson) {
         final Mapper mapper = new MapperBuilder().setVersion(mapperVersion).build();
         final Versioned versioned = new Versioned();
         versioned.name = name;

@@ -18,7 +18,7 @@
  */
 package org.apache.johnzon.mapper;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import jakarta.json.JsonArray;
 import jakarta.json.JsonNumber;
@@ -29,9 +29,9 @@ import jakarta.json.JsonValue;
 import java.io.StringReader;
 import java.util.Comparator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class JsonpIntegrationTest {
     @Test

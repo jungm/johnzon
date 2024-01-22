@@ -16,14 +16,14 @@
  */
 package org.apache.johnzon.mapper;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.function.Function;
 
 import static org.apache.johnzon.mapper.ExceptionMessages.simpleName;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TypeSimpleNameTest {
 

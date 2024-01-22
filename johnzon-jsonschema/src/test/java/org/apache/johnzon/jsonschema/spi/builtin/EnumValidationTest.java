@@ -20,14 +20,14 @@ package org.apache.johnzon.jsonschema.spi.builtin;
 
 import org.apache.johnzon.jsonschema.ValidationResult;
 import org.apache.johnzon.jsonschema.spi.ValidationContext;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import jakarta.json.Json;
 import jakarta.json.JsonValue;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EnumValidationTest {
     @Test

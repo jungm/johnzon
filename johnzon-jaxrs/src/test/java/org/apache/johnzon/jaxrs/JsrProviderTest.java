@@ -23,9 +23,9 @@ import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider;
 import org.apache.cxf.transport.local.LocalConduit;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -38,13 +38,13 @@ import jakarta.ws.rs.core.MediaType;
 import java.util.Iterator;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class JsrProviderTest {
     private final static String ENDPOINT_ADDRESS = "local://johnzon";
     private static Server server;
 
-    @BeforeClass
+    @BeforeAll
     public static void bindEndpoint() throws Exception {
         final JAXRSServerFactoryBean sf = new JAXRSServerFactoryBean();
         sf.setResourceClasses(JohnzonResource.class);
@@ -54,7 +54,7 @@ public class JsrProviderTest {
         server = sf.create();
     }
 
-    @AfterClass
+    @AfterAll
     public static void unbind() throws Exception {
         server.stop();
         server.destroy();
